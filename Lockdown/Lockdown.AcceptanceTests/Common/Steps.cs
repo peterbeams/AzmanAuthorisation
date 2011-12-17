@@ -61,6 +61,29 @@ namespace Lockdown.AcceptanceTests.Common
             document.Save(TestContext.AzmanStorePath);
         }
 
+        [Given(@"the store has an role called (.*)")]
+        public void GivenTheStoreHasAnRoleCalledRoleX(string name)
+        {
+            var document = XDocument.Load(TestContext.AzmanStorePath);
+
+            //get the azman element
+            var azMan = document.Element("AzAdminManager");
+
+            //add the application
+            var app = azMan.Element("AzApplication");
+
+            var role = new XElement("AzTask");
+            role.Add(new XAttribute("Guid", Guid.NewGuid()));
+            role.Add(new XAttribute("Name", name));
+            role.Add(new XAttribute("Description", string.Empty));
+            role.Add(new XAttribute("BizRuleImportedPath", string.Empty));
+            role.Add(new XAttribute("RoleDefinition", "True"));
+
+            app.Add(role);
+
+            document.Save(TestContext.AzmanStorePath);
+        }
+
         [When(@"I open the store")]
         public void WhenIOpenTheStore()
         {

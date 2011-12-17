@@ -12,6 +12,11 @@ namespace Lockdown
         public int Id { get; set; }
     }
 
+    public class Role
+    {
+        public string Name { get; set; }
+    }
+
     public class AuthorizationStore
     {
         private readonly IAzApplication _application;
@@ -51,6 +56,11 @@ namespace Lockdown
             }
             
             return ops;
+        }
+
+        public IEnumerable<Role> GetRoles()
+        {
+            return null;
         }
     }
 }
