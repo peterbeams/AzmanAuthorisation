@@ -18,6 +18,18 @@ namespace Lockdown.AcceptanceTests.Roles
             _result = TestContext.Store.GetRoles();
         }
 
+        [Given(@"the store has no roles")]
+        public void GivenTheStoreHasNoRoles()
+        {
+        }
+
+        [Then(@"I get a list of roles with 2 items in it")]
+        public void ThenIGetAListOfRolesWith2ItemsInIt()
+        {
+            Assert.That(_result, Is.Not.Null);
+            Assert.That(_result.Count(), Is.EqualTo(2));
+        }
+
         [Then(@"I get a list with a role called (.*) in it")]
         public void ThenIGetAListWithARoleCalledRole1InIt(string name)
         {

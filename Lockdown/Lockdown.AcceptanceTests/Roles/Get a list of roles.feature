@@ -10,7 +10,8 @@ Scenario: Two Roles
 	And the store has an role called role2
 	When I open the store
 	And I get the list of roles
-	Then I get a list with a role called role1 in it
+	Then I get a list of roles with 2 items in it
+	And I get a list with a role called role1 in it
 	And I get a list with a role called role2 in it
 
 Scenario: No Roles

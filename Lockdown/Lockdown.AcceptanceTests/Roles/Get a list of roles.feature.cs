@@ -85,8 +85,10 @@ this.ScenarioSetup(scenarioInfo);
 #line 12
  testRunner.And("I get the list of roles");
 #line 13
- testRunner.Then("I get a list with a role called role1 in it");
+ testRunner.Then("I get a list of roles with 2 items in it");
 #line 14
+ testRunner.And("I get a list with a role called role1 in it");
+#line 15
  testRunner.And("I get a list with a role called role2 in it");
 #line hidden
             this.ScenarioCleanup();
@@ -97,19 +99,19 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void NoRoles()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("No Roles", ((string[])(null)));
-#line 16
-this.ScenarioSetup(scenarioInfo);
 #line 17
- testRunner.Given("I have an azman store");
+this.ScenarioSetup(scenarioInfo);
 #line 18
- testRunner.And("the store has an application called MyApp");
+ testRunner.Given("I have an azman store");
 #line 19
- testRunner.And("the store has no roles");
+ testRunner.And("the store has an application called MyApp");
 #line 20
- testRunner.When("I open the store");
+ testRunner.And("the store has no roles");
 #line 21
- testRunner.And("I get the list of roles");
+ testRunner.When("I open the store");
 #line 22
+ testRunner.And("I get the list of roles");
+#line 23
  testRunner.Then("I get an empty list");
 #line hidden
             this.ScenarioCleanup();
