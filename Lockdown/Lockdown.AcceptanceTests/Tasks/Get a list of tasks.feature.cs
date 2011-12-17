@@ -116,6 +116,37 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Two Tasks and one role")]
+        public virtual void TwoTasksAndOneRole()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Two Tasks and one role", ((string[])(null)));
+#line 25
+this.ScenarioSetup(scenarioInfo);
+#line 26
+ testRunner.Given("I have an azman store");
+#line 27
+ testRunner.And("the store has an application called MyApp");
+#line 28
+ testRunner.And("the store has an role called role1");
+#line 29
+ testRunner.And("the store has an task called task1");
+#line 30
+ testRunner.And("the store has an task called task2");
+#line 31
+ testRunner.When("I open the store");
+#line 32
+ testRunner.And("I get the list of tasks");
+#line 33
+ testRunner.Then("I get a list of tasks with 2 items in it");
+#line 34
+ testRunner.And("I get a list with a task called task1 in it");
+#line 35
+ testRunner.And("I get a list with a task called task2 in it");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

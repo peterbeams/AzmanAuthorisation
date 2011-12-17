@@ -37,7 +37,7 @@ namespace Lockdown.AcceptanceTests.Roles
             Assert.That(_result.Any(r => r.Name.Equals(name)), Is.True);
         }
 
-        [Then(@"I get an empty list")]
+        [Then(@"I get an empty list of roles")]
         public void ThenIGetAnEmptyList()
         {
             Assert.That(_result, Is.Not.Null);

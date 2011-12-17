@@ -59,6 +59,12 @@ namespace Lockdown
                 while (enumerator.MoveNext())
                 {
                     var o = (IAzTask2)enumerator.Current;
+
+                    if (o.IsRoleDefinition != 1)
+                    {
+                        continue;
+                    }
+
                     roles.Add(new Role
                     {
                         Name = o.Name
@@ -88,6 +94,12 @@ namespace Lockdown
                 while (enumerator.MoveNext())
                 {
                     var o = (IAzTask2)enumerator.Current;
+
+                    if (o.IsRoleDefinition == 1)
+                    {
+                        continue;
+                    }
+
                     roles.Add(new Task
                     {
                         Name = o.Name

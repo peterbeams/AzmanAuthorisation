@@ -21,3 +21,15 @@ Scenario: No Roles
 	When I open the store
 	And I get the list of tasks
 	Then I get an empty list of tasks
+
+Scenario: Two Tasks and one role
+	Given I have an azman store
+	And the store has an application called MyApp
+	And the store has an role called role1
+	And the store has an task called task1
+	And the store has an task called task2
+	When I open the store
+	And I get the list of tasks
+	Then I get a list of tasks with 2 items in it
+	And I get a list with a task called task1 in it
+	And I get a list with a task called task2 in it

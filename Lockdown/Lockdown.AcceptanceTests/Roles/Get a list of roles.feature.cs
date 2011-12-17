@@ -112,7 +112,38 @@ this.ScenarioSetup(scenarioInfo);
 #line 22
  testRunner.And("I get the list of roles");
 #line 23
- testRunner.Then("I get an empty list of tasks");
+ testRunner.Then("I get an empty list of roles");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Two Roles and one task")]
+        public virtual void TwoRolesAndOneTask()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Two Roles and one task", ((string[])(null)));
+#line 25
+this.ScenarioSetup(scenarioInfo);
+#line 26
+ testRunner.Given("I have an azman store");
+#line 27
+ testRunner.And("the store has an application called MyApp");
+#line 28
+ testRunner.And("the store has an task called task1");
+#line 29
+ testRunner.And("the store has an role called role1");
+#line 30
+ testRunner.And("the store has an role called role2");
+#line 31
+ testRunner.When("I open the store");
+#line 32
+ testRunner.And("I get the list of roles");
+#line 33
+ testRunner.Then("I get a list of roles with 2 items in it");
+#line 34
+ testRunner.And("I get a list with a role called role1 in it");
+#line 35
+ testRunner.And("I get a list with a role called role2 in it");
 #line hidden
             this.ScenarioCleanup();
         }
