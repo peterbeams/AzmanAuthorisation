@@ -11,7 +11,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Lockdown.AcceptanceTests.Roles
+namespace Lockdown.AcceptanceTests.Tasks
 {
     using TechTalk.SpecFlow;
     
@@ -19,21 +19,21 @@ namespace Lockdown.AcceptanceTests.Roles
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "1.8.1.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Get a list of roles")]
-    public partial class GetAListOfRolesFeature
+    [NUnit.Framework.DescriptionAttribute("Get a list of tasks")]
+    public partial class GetAListOfTasksFeature
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "Get a list of roles.feature"
+#line 1 "Get a list of tasks.feature"
 #line hidden
         
         [NUnit.Framework.TestFixtureSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Get a list of roles", "As a policy administrator\r\nI can get a list of roles\r\nso that I can see the roles" +
-                    " I can apply", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Get a list of tasks", "As a policy administrator\r\nI can get a list of tasks\r\nso that I can see tasks tha" +
+                    "t are in my policies", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -66,10 +66,10 @@ namespace Lockdown.AcceptanceTests.Roles
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Two Roles")]
-        public virtual void TwoRoles()
+        [NUnit.Framework.DescriptionAttribute("Two Tasks")]
+        public virtual void TwoTasks()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Two Roles", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Two Tasks", ((string[])(null)));
 #line 6
 this.ScenarioSetup(scenarioInfo);
 #line 7
@@ -77,19 +77,19 @@ this.ScenarioSetup(scenarioInfo);
 #line 8
  testRunner.And("the store has an application called MyApp");
 #line 9
- testRunner.And("the store has an role called role1");
+ testRunner.And("the store has an task called task1");
 #line 10
- testRunner.And("the store has an role called role2");
+ testRunner.And("the store has an task called task2");
 #line 11
  testRunner.When("I open the store");
 #line 12
- testRunner.And("I get the list of roles");
+ testRunner.And("I get the list of tasks");
 #line 13
- testRunner.Then("I get a list of roles with 2 items in it");
+ testRunner.Then("I get a list of tasks with 2 items in it");
 #line 14
- testRunner.And("I get a list with a role called role1 in it");
+ testRunner.And("I get a list with a task called task1 in it");
 #line 15
- testRunner.And("I get a list with a role called role2 in it");
+ testRunner.And("I get a list with a task called task2 in it");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -110,18 +110,18 @@ this.ScenarioSetup(scenarioInfo);
 #line 21
  testRunner.When("I open the store");
 #line 22
- testRunner.And("I get the list of roles");
+ testRunner.And("I get the list of tasks");
 #line 23
- testRunner.Then("I get an empty list of roles");
+ testRunner.Then("I get an empty list of tasks");
 #line hidden
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Two Roles and one task")]
-        public virtual void TwoRolesAndOneTask()
+        [NUnit.Framework.DescriptionAttribute("Two Tasks and one role")]
+        public virtual void TwoTasksAndOneRole()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Two Roles and one task", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Two Tasks and one role", ((string[])(null)));
 #line 25
 this.ScenarioSetup(scenarioInfo);
 #line 26
@@ -129,21 +129,21 @@ this.ScenarioSetup(scenarioInfo);
 #line 27
  testRunner.And("the store has an application called MyApp");
 #line 28
- testRunner.And("the store has an task called task1");
-#line 29
  testRunner.And("the store has an role called role1");
+#line 29
+ testRunner.And("the store has an task called task1");
 #line 30
- testRunner.And("the store has an role called role2");
+ testRunner.And("the store has an task called task2");
 #line 31
  testRunner.When("I open the store");
 #line 32
- testRunner.And("I get the list of roles");
+ testRunner.And("I get the list of tasks");
 #line 33
- testRunner.Then("I get a list of roles with 2 items in it");
+ testRunner.Then("I get a list of tasks with 2 items in it");
 #line 34
- testRunner.And("I get a list with a role called role1 in it");
+ testRunner.And("I get a list with a task called task1 in it");
 #line 35
- testRunner.And("I get a list with a role called role2 in it");
+ testRunner.And("I get a list with a task called task2 in it");
 #line hidden
             this.ScenarioCleanup();
         }

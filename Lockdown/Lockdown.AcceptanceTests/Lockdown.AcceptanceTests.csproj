@@ -76,6 +76,12 @@
       <DependentUpon>Get a list of roles.feature</DependentUpon>
     </Compile>
     <Compile Include="Roles\Steps.cs" />
+    <Compile Include="Tasks\Get a list of tasks.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Get a list of tasks.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Tasks\Steps.cs" />
     <Compile Include="TestContext.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -90,6 +96,10 @@
     <None Include="Roles\Get a list of roles.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Get a list of roles.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Tasks\Get a list of tasks.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Get a list of tasks.feature.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

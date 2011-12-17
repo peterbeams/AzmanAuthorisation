@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using AZROLESLib;
 
 namespace Lockdown
@@ -19,50 +21,47 @@ namespace Lockdown
 
         public IEnumerable<Operation> GetOperations()
         {
-            var azOps = _application.Operations;
-            var enumerator = azOps.GetEnumerator();
-            var ops = new List<Operation>();
-
-            try
-            {
-                while (enumerator.MoveNext())
-                {
-                    var o = (IAzOperation2)enumerator.Current;
-                    ops.Add(new Operation
-                    {
-                        Name = o.Name,
-                        Id = o.OperationID
-                    });
-
-                    Marshal.FinalReleaseComObject(o);
-                }
-            }
-            finally
-            {
-                var adapter = (ICustomAdapter)enumerator;
-                Marshal.ReleaseComObject(adapter.GetUnderlyingObject());
-                Marshal.FinalReleaseComObject(azOps);
-            }
-            
-            return ops;
+            return GetEntityListFromAzmanEnumerator<IAzOperation2, Operation>(() => _application.Operations, o => true, o => new Operation
+                                                              {
+                                                                  Name = o.Name,
+                                                                  Id = o.OperationID
+                                                              });
         }
 
         public IEnumerable<Role> GetRoles()
         {
-            var azRoles = _application.Tasks;
-            var enumerator = azRoles.GetEnumerator();
-            var roles = new List<Role>();
+            return GetEntityListFromAzmanEnumerator<IAzTask2, Role>(() => _application.Tasks, o => o.IsRoleDefinition == 1, o => new Role
+                                                                                                {
+                                                                                                    Name = o.Name
+                                                                                                });
+        }
+
+        public IEnumerable<Task> GetTasks()
+        {
+            return GetEntityListFromAzmanEnumerator<IAzTask2, Task>(() => _application.Tasks, o => o.IsRoleDefinition != 1, o => new Task
+                                                                                                    {
+                                                                                                        Name = o.Name
+                                                                                                    });
+        }
+
+        public IEnumerable<TEntity> GetEntityListFromAzmanEnumerator<TAzItem, TEntity>(Func<IEnumerable> azmanListFunc, Func<TAzItem, bool> includeAny, Func<TAzItem, TEntity> createEntity)
+        {
+            var azmanList = azmanListFunc.Invoke();
+            var enumerator = azmanList.GetEnumerator();
+            var entityList = new List<TEntity>();
 
             try
             {
                 while (enumerator.MoveNext())
                 {
-                    var o = (IAzTask2)enumerator.Current;
-                    roles.Add(new Role
-                    {
-                        Name = o.Name
-                    });
+                    var o = (TAzItem)enumerator.Current;
 
+                    if (!includeAny.Invoke(o))
+                    {
+                        continue;
+                    }
+
+                    entityList.Add(createEntity.Invoke(o));
                     Marshal.FinalReleaseComObject(o);
                 }
             }
@@ -70,10 +69,10 @@ namespace Lockdown
             {
                 var adapter = (ICustomAdapter)enumerator;
                 Marshal.ReleaseComObject(adapter.GetUnderlyingObject());
-                Marshal.FinalReleaseComObject(azRoles);
+                Marshal.FinalReleaseComObject(azmanList);
             }
 
-            return roles;
+            return entityList;
         }
     }
 }
