@@ -15,6 +15,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{18D5A6
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Stores", "Stores", "{B923B7E9-869F-49ED-BE85-83B2DD55892C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v2.0", "v2.0", "{C5A9F8B3-B815-49C0-87B2-14AAC6DF56D4}"
+	ProjectSection(SolutionItems) = preProject
+		..\Stores\v2.0\Empty.xml = ..\Stores\v2.0\Empty.xml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lockdown.AcceptanceTests", "Lockdown.AcceptanceTests\Lockdown.AcceptanceTests.csproj", "{7EE48F15-410F-43D4-837F-66BA0E2032A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,12 +38,18 @@ Global
 		{0296B4DA-3B30-4546-963D-A1D15122916C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0296B4DA-3B30-4546-963D-A1D15122916C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0296B4DA-3B30-4546-963D-A1D15122916C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EE48F15-410F-43D4-837F-66BA0E2032A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EE48F15-410F-43D4-837F-66BA0E2032A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EE48F15-410F-43D4-837F-66BA0E2032A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EE48F15-410F-43D4-837F-66BA0E2032A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0296B4DA-3B30-4546-963D-A1D15122916C} = {B7B73145-C3D7-4AEF-BAE8-861175322813}
+		{7EE48F15-410F-43D4-837F-66BA0E2032A0} = {B7B73145-C3D7-4AEF-BAE8-861175322813}
 		{B04FD0ED-E3D5-4B7A-83DF-318F57686EDA} = {DAAE82B9-821E-4E8D-8AAA-982D22396B9B}
+		{C5A9F8B3-B815-49C0-87B2-14AAC6DF56D4} = {B923B7E9-869F-49ED-BE85-83B2DD55892C}
 	EndGlobalSection
 EndGlobal
