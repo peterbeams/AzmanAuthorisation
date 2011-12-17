@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using AZROLESLib;
 
 namespace Lockdown
@@ -74,6 +75,11 @@ namespace Lockdown
             }
 
             return roles;
+        }
+
+        public IEnumerable<Task> GetTasks()
+        {
+            return null;
         }
     }
 }

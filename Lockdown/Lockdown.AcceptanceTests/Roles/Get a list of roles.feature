@@ -17,7 +17,7 @@ Scenario: Two Roles
 Scenario: No Roles
 	Given I have an azman store
 	And the store has an application called MyApp
-	And the store has no roles
+	And the store has no tasks
 	When I open the store
 	And I get the list of roles
-	Then I get an empty list	
+	Then I get an empty list of tasks

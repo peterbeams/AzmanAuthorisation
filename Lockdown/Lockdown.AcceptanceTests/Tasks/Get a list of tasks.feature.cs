@@ -85,7 +85,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 12
  testRunner.And("I get the list of tasks");
 #line 13
- testRunner.Then("I get a list of task with 2 items in it");
+ testRunner.Then("I get a list of tasks with 2 items in it");
 #line 14
  testRunner.And("I get a list with a task called task1 in it");
 #line 15

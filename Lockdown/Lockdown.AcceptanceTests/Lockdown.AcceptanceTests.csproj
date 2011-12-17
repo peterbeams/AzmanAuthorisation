@@ -81,6 +81,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Get a list of tasks.feature</DependentUpon>
     </Compile>
+    <Compile Include="Tasks\Steps.cs" />
     <Compile Include="TestContext.cs" />
   </ItemGroup>
   <ItemGroup>

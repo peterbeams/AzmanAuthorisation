@@ -10,7 +10,7 @@ Scenario: Two Tasks
 	And the store has an task called task2
 	When I open the store
 	And I get the list of tasks
-	Then I get a list of task with 2 items in it
+	Then I get a list of tasks with 2 items in it
 	And I get a list with a task called task1 in it
 	And I get a list with a task called task2 in it
 

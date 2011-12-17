@@ -106,13 +106,13 @@ this.ScenarioSetup(scenarioInfo);
 #line 19
  testRunner.And("the store has an application called MyApp");
 #line 20
- testRunner.And("the store has no roles");
+ testRunner.And("the store has no tasks");
 #line 21
  testRunner.When("I open the store");
 #line 22
  testRunner.And("I get the list of roles");
 #line 23
- testRunner.Then("I get an empty list");
+ testRunner.Then("I get an empty list of tasks");
 #line hidden
             this.ScenarioCleanup();
         }
