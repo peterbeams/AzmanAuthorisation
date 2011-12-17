@@ -70,6 +70,11 @@
     <Compile Include="Performance\PerformanceContext.cs" />
     <Compile Include="Performance\Steps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Roles\Get a list of roles.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Get a list of roles.feature</DependentUpon>
+    </Compile>
     <Compile Include="TestContext.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +85,10 @@
     <None Include="Performance\Get a list of operations.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Get a list of operations.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Roles\Get a list of roles.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Get a list of roles.feature.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
