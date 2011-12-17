@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AzAdminManager MajorVersion="2" MinorVersion="0" Guid="51040e85-1a70-4f82-a394-ea9f4b63041a">
+  <AzApplication Guid="38dfe06f-4647-4082-801b-9fdc50dab416" Name="first application" Description="" ApplicationVersion="">
+    <AzOperation Guid="4d9a6d85-af7e-4453-b75c-b035d1408e24" Name="operation1" Description="">
+      <OperationID>1</OperationID>
+    </AzOperation>
+  </AzApplication>
+</AzAdminManager>
