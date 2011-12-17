@@ -1,5 +1,5 @@
 ﻿Feature: Get a list of operations
-	In order to see what operations can be authorised
+	As a policy administrator
 	I can get the list of operations
 	so that I can check if the operations are authorised
 

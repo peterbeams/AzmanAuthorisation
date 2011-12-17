@@ -11,7 +11,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Lockdown.AcceptanceTests.Operations
+namespace Lockdown.AcceptanceTests.Roles
 {
     using TechTalk.SpecFlow;
     
@@ -19,21 +19,21 @@ namespace Lockdown.AcceptanceTests.Operations
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "1.8.1.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Get a list of operations")]
-    public partial class GetAListOfOperationsFeature
+    [NUnit.Framework.DescriptionAttribute("Get a list of roles")]
+    public partial class GetAListOfRolesFeature
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "Get a list of operations.feature"
+#line 1 "Get a list of roles.feature"
 #line hidden
         
         [NUnit.Framework.TestFixtureSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Get a list of operations", "As a policy administrator\r\nI can get the list of operations\r\nso that I can check " +
-                    "if the operations are authorised", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Get a list of roles", "As a policy administrator\r\nI can get a list of roles\r\nso that I can see the roles" +
+                    " I can apply", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -66,10 +66,10 @@ namespace Lockdown.AcceptanceTests.Operations
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Two operations")]
-        public virtual void TwoOperations()
+        [NUnit.Framework.DescriptionAttribute("Two Roles")]
+        public virtual void TwoRoles()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Two operations", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Two Roles", ((string[])(null)));
 #line 6
 this.ScenarioSetup(scenarioInfo);
 #line 7
@@ -77,17 +77,42 @@ this.ScenarioSetup(scenarioInfo);
 #line 8
  testRunner.And("the store has an application called MyApp");
 #line 9
- testRunner.And("the store has an operation X with id 1");
+ testRunner.And("the store has an role called role1");
 #line 10
- testRunner.And("the store has an operation Y with id 2");
+ testRunner.And("the store has an role called role2");
 #line 11
  testRunner.When("I open the store");
 #line 12
- testRunner.And("I get the list of operations");
+ testRunner.And("I get the list of roles");
 #line 13
- testRunner.Then("I get a list with an operation called X with id 1");
+ testRunner.Then("I get a list of roles with 2 items in it");
 #line 14
- testRunner.And("I get a list with an operation called Y with id 2");
+ testRunner.And("I get a list with a role called role1 in it");
+#line 15
+ testRunner.And("I get a list with a role called role2 in it");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("No Roles")]
+        public virtual void NoRoles()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("No Roles", ((string[])(null)));
+#line 17
+this.ScenarioSetup(scenarioInfo);
+#line 18
+ testRunner.Given("I have an azman store");
+#line 19
+ testRunner.And("the store has an application called MyApp");
+#line 20
+ testRunner.And("the store has no roles");
+#line 21
+ testRunner.When("I open the store");
+#line 22
+ testRunner.And("I get the list of roles");
+#line 23
+ testRunner.Then("I get an empty list");
 #line hidden
             this.ScenarioCleanup();
         }

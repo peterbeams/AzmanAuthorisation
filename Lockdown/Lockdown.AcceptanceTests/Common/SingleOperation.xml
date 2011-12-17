@@ -1,8 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <AzAdminManager MajorVersion="2" MinorVersion="0" Guid="51040e85-1a70-4f82-a394-ea9f4b63041a">
   <AzApplication Guid="38dfe06f-4647-4082-801b-9fdc50dab416" Name="first application" Description="" ApplicationVersion="">
-    <AzOperation Guid="4d9a6d85-af7e-4453-b75c-b035d1408e24" Name="operation1" Description="">
-      <OperationID>1</OperationID>
-    </AzOperation>
+    <AzTask Guid="58998f46-a2c9-451f-bebd-81bd52d42a54" Name="role1" Description="" BizRuleImportedPath="" RoleDefinition="True"/>
   </AzApplication>
 </AzAdminManager>
