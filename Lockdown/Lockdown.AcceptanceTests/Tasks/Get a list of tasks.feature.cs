@@ -112,7 +112,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 22
  testRunner.And("I get the list of tasks");
 #line 23
- testRunner.Then("I get an empty list");
+ testRunner.Then("I get an empty list of tasks");
 #line hidden
             this.ScenarioCleanup();
         }

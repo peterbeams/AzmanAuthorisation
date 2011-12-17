@@ -79,7 +79,31 @@ namespace Lockdown
 
         public IEnumerable<Task> GetTasks()
         {
-            return null;
+            var azRoles = _application.Tasks;
+            var enumerator = azRoles.GetEnumerator();
+            var roles = new List<Task>();
+
+            try
+            {
+                while (enumerator.MoveNext())
+                {
+                    var o = (IAzTask2)enumerator.Current;
+                    roles.Add(new Task
+                    {
+                        Name = o.Name
+                    });
+
+                    Marshal.FinalReleaseComObject(o);
+                }
+            }
+            finally
+            {
+                var adapter = (ICustomAdapter)enumerator;
+                Marshal.ReleaseComObject(adapter.GetUnderlyingObject());
+                Marshal.FinalReleaseComObject(azRoles);
+            }
+
+            return roles;
         }
     }
 }

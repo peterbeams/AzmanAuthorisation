@@ -20,4 +20,4 @@ Scenario: No Roles
 	And the store has no tasks
 	When I open the store
 	And I get the list of tasks
-	Then I get an empty list
+	Then I get an empty list of tasks
