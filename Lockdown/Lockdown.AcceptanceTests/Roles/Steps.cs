@@ -23,11 +23,11 @@ namespace Lockdown.AcceptanceTests.Roles
         {
         }
 
-        [Then(@"I get a list of roles with 2 items in it")]
-        public void ThenIGetAListOfRolesWith2ItemsInIt()
+        [Then(@"I get a list of roles with (.*) item\(s\) in it")]
+        public void ThenIGetAListOfRolesWithNItemsInIt(int count)
         {
             Assert.That(_result, Is.Not.Null);
-            Assert.That(_result.Count(), Is.EqualTo(2));
+            Assert.That(_result.Count(), Is.EqualTo(count));
         }
 
         [Then(@"I get a list with a role called (.*) in it")]
@@ -42,6 +42,12 @@ namespace Lockdown.AcceptanceTests.Roles
         {
             Assert.That(_result, Is.Not.Null);
             Assert.That(_result.Count(), Is.EqualTo(0));
+        }
+
+        [Then(@"the role contains operation (.*)")]
+        public void ThenTheRoleContainsOperationN(int operationId)
+        {
+            Assert.That(_result.ElementAt(0).Operations.Any(o => o.Id == operationId), Is.True);
         }
     }
 }
