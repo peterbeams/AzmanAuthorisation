@@ -147,6 +147,41 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Role contains two operations")]
+        public virtual void RoleContainsTwoOperations()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Role contains two operations", ((string[])(null)));
+#line 37
+this.ScenarioSetup(scenarioInfo);
+#line 38
+ testRunner.Given("I have an azman store");
+#line 39
+ testRunner.And("the store has an application called MyApp");
+#line 40
+ testRunner.And("the store has an role called role1");
+#line 41
+ testRunner.And("the store has an operation X with id 1");
+#line 42
+ testRunner.And("the store has an operation Y with id 2");
+#line 43
+ testRunner.And("the role role1 contains operation 1");
+#line 44
+ testRunner.And("the role role1 contains operation 2");
+#line 45
+ testRunner.When("I open the store");
+#line 46
+ testRunner.And("I get the list of roles");
+#line 47
+ testRunner.Then("I get a list of roles with 1 item in it");
+#line 48
+ testRunner.And("the role contains operation 1");
+#line 49
+ testRunner.And("the role contains operation 2");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore
