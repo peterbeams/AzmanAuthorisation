@@ -30,10 +30,25 @@ namespace Lockdown
 
         public IEnumerable<Role> GetRoles()
         {
-            return GetEntityListFromAzmanEnumerator<IAzTask2, Role>(() => _application.Tasks, o => o.IsRoleDefinition == 1, o => new Role
-                                                                                                {
-                                                                                                    Name = o.Name
-                                                                                                });
+            return GetEntityListFromAzmanEnumerator<IAzTask2, Role>(() => _application.Tasks, o => o.IsRoleDefinition == 1, CreateRole);
+        }
+
+        private Role CreateRole(IAzTask2 o)
+        {
+            var opNames = new List<string>();
+            foreach (var s in o.Operations)
+            {
+                opNames.Add(s);
+            }
+
+            var operations = GetOperations();
+            operations = operations.Where(op => opNames.Any(opName => opName == op.Name));
+
+            return new Role
+                       {
+                           Name = o.Name,
+                           Operations = operations
+                       };
         }
 
         public IEnumerable<Task> GetTasks()
@@ -67,9 +82,12 @@ namespace Lockdown
             }
             finally
             {
-                var adapter = (ICustomAdapter)enumerator;
-                Marshal.ReleaseComObject(adapter.GetUnderlyingObject());
-                Marshal.FinalReleaseComObject(azmanList);
+                if (enumerator is ICustomAdapter)
+                {
+                    var adapter = (ICustomAdapter)enumerator;
+                    Marshal.ReleaseComObject(adapter.GetUnderlyingObject());
+                    Marshal.FinalReleaseComObject(azmanList);
+                }
             }
 
             return entityList;
