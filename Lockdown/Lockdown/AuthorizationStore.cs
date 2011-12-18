@@ -11,15 +11,23 @@ namespace Lockdown
     public class AuthorizationStore
     {
         private readonly IAzApplication _application;
+        private IEnumerable<Operation> _operations;
 
         public AuthorizationStore(string connectionString)
         {
             var store = new AzAuthorizationStore();
             store.Initialize(0, connectionString, null);
             _application = store.OpenApplication("MyApp", null);
+
+            _operations = GetOperations();
         }
 
-        public IEnumerable<Operation> GetOperations()
+        public IEnumerable<Operation> Operations
+        {
+            get { return _operations; }
+        }
+
+        private IEnumerable<Operation> GetOperations()
         {
             return GetEntityListFromAzmanEnumerator<IAzOperation2, Operation>(() => _application.Operations, o => true, o => new Operation
                                                               {
@@ -41,8 +49,7 @@ namespace Lockdown
                 opNames.Add(s);
             }
 
-            var operations = GetOperations();
-            operations = operations.Where(op => opNames.Any(opName => opName == op.Name));
+            var operations = Operations.Where(op => opNames.Any(opName => opName == op.Name));
 
             return new Role
                        {
