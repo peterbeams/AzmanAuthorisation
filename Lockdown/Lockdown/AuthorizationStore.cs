@@ -11,15 +11,23 @@ namespace Lockdown
     public class AuthorizationStore
     {
         private readonly IAzApplication _application;
+        private IEnumerable<Operation> _operations;
 
         public AuthorizationStore(string connectionString)
         {
             var store = new AzAuthorizationStore();
             store.Initialize(0, connectionString, null);
             _application = store.OpenApplication("MyApp", null);
+
+            _operations = GetOperations();
         }
 
-        public IEnumerable<Operation> GetOperations()
+        public IEnumerable<Operation> Operations
+        {
+            get { return _operations; }
+        }
+
+        private IEnumerable<Operation> GetOperations()
         {
             return GetEntityListFromAzmanEnumerator<IAzOperation2, Operation>(() => _application.Operations, o => true, o => new Operation
                                                               {
@@ -30,10 +38,24 @@ namespace Lockdown
 
         public IEnumerable<Role> GetRoles()
         {
-            return GetEntityListFromAzmanEnumerator<IAzTask2, Role>(() => _application.Tasks, o => o.IsRoleDefinition == 1, o => new Role
-                                                                                                {
-                                                                                                    Name = o.Name
-                                                                                                });
+            return GetEntityListFromAzmanEnumerator<IAzTask2, Role>(() => _application.Tasks, o => o.IsRoleDefinition == 1, CreateRole);
+        }
+
+        private Role CreateRole(IAzTask2 o)
+        {
+            var opNames = new List<string>();
+            foreach (var s in o.Operations)
+            {
+                opNames.Add(s);
+            }
+
+            var operations = Operations.Where(op => opNames.Any(opName => opName == op.Name));
+
+            return new Role
+                       {
+                           Name = o.Name,
+                           Operations = operations
+                       };
         }
 
         public IEnumerable<Task> GetTasks()
@@ -67,9 +89,12 @@ namespace Lockdown
             }
             finally
             {
-                var adapter = (ICustomAdapter)enumerator;
-                Marshal.ReleaseComObject(adapter.GetUnderlyingObject());
-                Marshal.FinalReleaseComObject(azmanList);
+                if (enumerator is ICustomAdapter)
+                {
+                    var adapter = (ICustomAdapter)enumerator;
+                    Marshal.ReleaseComObject(adapter.GetUnderlyingObject());
+                    Marshal.FinalReleaseComObject(azmanList);
+                }
             }
 
             return entityList;

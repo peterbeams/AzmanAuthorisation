@@ -107,6 +107,26 @@ namespace Lockdown.AcceptanceTests.Common
             document.Save(TestContext.AzmanStorePath);
         }
 
+        [Given(@"the role (.*) contains operation (.*)")]
+        public void GivenTheRoleXContainsOperationN(string roleName, int operationId)
+        {
+            var document = XDocument.Load(TestContext.AzmanStorePath);
+
+            //get the azman element
+            var azMan = document.Element("AzAdminManager");
+
+            //add the application
+            var app = azMan.Element("AzApplication");
+
+            var operationIdElement = app.Descendants("OperationID").Where(n => n.Value == operationId.ToString()).Single();
+            var operationGuid = operationIdElement.Parent.Attribute("Guid").Value;
+
+            var roleElement = app.Elements("AzTask").Where(n => n.Attribute("Name").Value == roleName).Single();
+            roleElement.Add(new XElement("OperationLink", operationGuid));
+
+            document.Save(TestContext.AzmanStorePath);
+        }
+
         [When(@"I open the store")]
         public void WhenIOpenTheStore()
         {

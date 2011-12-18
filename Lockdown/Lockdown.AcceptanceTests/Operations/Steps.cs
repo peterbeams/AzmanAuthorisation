@@ -18,7 +18,7 @@ namespace Lockdown.AcceptanceTests.Operations
         public void WhenIGetTheListOfOperations()
         {
             var store = TestContext.Store;
-            _result = store.GetOperations();
+            _result = store.Operations;
         }
 
         [Then(@"I get a list with an operation called (.*) with id (.*)")]

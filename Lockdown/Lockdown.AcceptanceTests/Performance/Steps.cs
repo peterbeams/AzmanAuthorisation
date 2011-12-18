@@ -26,14 +26,14 @@ namespace Lockdown.AcceptanceTests.Performance
         {
             for (var i = 0; i < times; i++)
             {
-                var operations = TestContext.Store.GetOperations();
+                var operations = TestContext.Store.Operations;
             }
         }
 
         [When(@"I get the list of operations (.*) times in parallel")]
         public void WhenIGetTheListOfOperationsXTimesInParallel(int times)
         {
-            Parallel.For(0, times, i => TestContext.Store.GetOperations());
+            Parallel.For(0, times, i => { var o = TestContext.Store.Operations; });
         }
 
         [Then(@"the test takes less than (.*)ms")]

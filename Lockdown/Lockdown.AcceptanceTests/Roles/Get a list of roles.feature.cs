@@ -85,7 +85,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 12
  testRunner.And("I get the list of roles");
 #line 13
- testRunner.Then("I get a list of roles with 2 items in it");
+ testRunner.Then("I get a list of roles with 2 item(s) in it");
 #line 14
  testRunner.And("I get a list with a role called role1 in it");
 #line 15
@@ -139,11 +139,46 @@ this.ScenarioSetup(scenarioInfo);
 #line 32
  testRunner.And("I get the list of roles");
 #line 33
- testRunner.Then("I get a list of roles with 2 items in it");
+ testRunner.Then("I get a list of roles with 2 item(s) in it");
 #line 34
  testRunner.And("I get a list with a role called role1 in it");
 #line 35
  testRunner.And("I get a list with a role called role2 in it");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Role contains two operations")]
+        public virtual void RoleContainsTwoOperations()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Role contains two operations", ((string[])(null)));
+#line 37
+this.ScenarioSetup(scenarioInfo);
+#line 38
+ testRunner.Given("I have an azman store");
+#line 39
+ testRunner.And("the store has an application called MyApp");
+#line 40
+ testRunner.And("the store has an role called role1");
+#line 41
+ testRunner.And("the store has an operation X with id 1");
+#line 42
+ testRunner.And("the store has an operation Y with id 2");
+#line 43
+ testRunner.And("the role role1 contains operation 1");
+#line 44
+ testRunner.And("the role role1 contains operation 2");
+#line 45
+ testRunner.When("I open the store");
+#line 46
+ testRunner.And("I get the list of roles");
+#line 47
+ testRunner.Then("I get a list of roles with 1 item(s) in it");
+#line 48
+ testRunner.And("the role contains operation 1");
+#line 49
+ testRunner.And("the role contains operation 2");
 #line hidden
             this.ScenarioCleanup();
         }
