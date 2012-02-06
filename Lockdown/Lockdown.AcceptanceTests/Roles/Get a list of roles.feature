@@ -47,3 +47,18 @@ Scenario: Role contains two operations
 	Then I get a list of roles with 1 item(s) in it
 	And the role contains operation 1
 	And the role contains operation 2
+
+Scenario: Role contains two tasks
+	Given I have an azman store
+	And the store has an application called MyApp	
+	And the store has an role called role1
+	And the store has an task called task1	
+	And the store has an task called task2
+	And the role role1 contains task task1
+	And the role role1 contains task task2
+	When I open the store
+	And I get the list of roles
+	Then I get a list of roles with 1 item(s) in it
+	And the role should contain 2 tasks
+	And the role contains task task1
+	And the role contains task task2

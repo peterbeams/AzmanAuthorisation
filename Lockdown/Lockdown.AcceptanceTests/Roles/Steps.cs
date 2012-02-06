@@ -8,7 +8,7 @@ using TechTalk.SpecFlow;
 namespace Lockdown.AcceptanceTests.Roles
 {
     [Binding]
-    public class Steps
+    public class Steps : AssertionHelper
     {
         private IEnumerable<Role> _result;
 
@@ -48,6 +48,18 @@ namespace Lockdown.AcceptanceTests.Roles
         public void ThenTheRoleContainsOperationN(int operationId)
         {
             Assert.That(_result.ElementAt(0).Operations.Any(o => o.Id == operationId), Is.True);
+        }
+
+        [Then(@"the role contains task (.*)")]
+        public void ThenTheRoleContainsN(string taskName)
+        {
+            Assert.That(_result.ElementAt(0).Tasks.Any(o => o.Name == taskName), Is.True);
+        }
+
+        [Then(@"the role should contain (.*) tasks")]
+        public void TheRoleShoulContainNTasks(int n)
+        {
+            Assert.That(_result.ElementAt(0).Tasks.Count(), EqualTo(n));
         }
     }
 }

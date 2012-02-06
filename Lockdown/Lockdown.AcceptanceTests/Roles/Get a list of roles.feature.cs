@@ -182,6 +182,43 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Role contains two tasks")]
+        public virtual void RoleContainsTwoTasks()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Role contains two tasks", ((string[])(null)));
+#line 51
+this.ScenarioSetup(scenarioInfo);
+#line 52
+ testRunner.Given("I have an azman store");
+#line 53
+ testRunner.And("the store has an application called MyApp");
+#line 54
+ testRunner.And("the store has an role called role1");
+#line 55
+ testRunner.And("the store has an task called task1");
+#line 56
+ testRunner.And("the store has an task called task2");
+#line 57
+ testRunner.And("the role role1 contains task task1");
+#line 58
+ testRunner.And("the role role1 contains task task2");
+#line 59
+ testRunner.When("I open the store");
+#line 60
+ testRunner.And("I get the list of roles");
+#line 61
+ testRunner.Then("I get a list of roles with 1 item(s) in it");
+#line 62
+ testRunner.And("the role should contain 2 tasks");
+#line 63
+ testRunner.And("the role contains task task1");
+#line 64
+ testRunner.And("the role contains task task2");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

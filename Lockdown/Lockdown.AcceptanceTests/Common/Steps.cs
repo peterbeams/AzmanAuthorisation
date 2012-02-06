@@ -107,7 +107,7 @@ namespace Lockdown.AcceptanceTests.Common
             document.Save(TestContext.AzmanStorePath);
         }
 
-        [Given(@"the role (.*) contains operation (.*)")]
+        [Given(@"the role (.*) contains (?:operation) (.*)")]
         public void GivenTheRoleXContainsOperationN(string roleName, int operationId)
         {
             var document = XDocument.Load(TestContext.AzmanStorePath);
@@ -124,6 +124,26 @@ namespace Lockdown.AcceptanceTests.Common
             var roleElement = app.Elements("AzTask").Where(n => n.Attribute("Name").Value == roleName).Single();
             roleElement.Add(new XElement("OperationLink", operationGuid));
 
+            document.Save(TestContext.AzmanStorePath);
+        }
+
+        [Given(@"the role (.*) contains (?:task) (.*)")]
+        public void GivenTheRoleRole1ContainsTaskN(string roleName, string taskName)
+        {
+            var document = XDocument.Load(TestContext.AzmanStorePath);
+
+            //get the azman element
+            var azMan = document.Element("AzAdminManager");
+
+            //add the application
+            var app = azMan.Element("AzApplication");
+
+            var taskElement = app.Descendants("AzTask").Where(n => n.Attributes("Name").Single().Value == taskName).Single();
+            var taskGuid = taskElement.Attribute("Guid").Value;
+
+            var roleElement = app.Elements("AzTask").Where(n => n.Attribute("Name").Value == roleName).Single();
+            roleElement.Add(new XElement("TaskLink", taskGuid));
+            
             document.Save(TestContext.AzmanStorePath);
         }
 

@@ -14,7 +14,7 @@ namespace Lockdown.AcceptanceTests.Tasks
         [When(@"I get the list of tasks")]
         public void WhenIGetTheListOfRoles()
         {
-            _result = TestContext.Store.GetTasks();
+            _result = TestContext.Store.Tasks;
         }
 
         [Given(@"the store has no tasks")]

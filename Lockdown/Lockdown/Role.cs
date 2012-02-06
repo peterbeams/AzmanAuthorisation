@@ -7,5 +7,6 @@ namespace Lockdown
     {
         public string Name { get; set; }
         public IEnumerable<Operation> Operations { get; set; }
+        public IEnumerable<Task> Tasks { get; set; }
     }
 }

@@ -12,6 +12,7 @@ namespace Lockdown
     {
         private readonly IAzApplication _application;
         private IEnumerable<Operation> _operations;
+        private IEnumerable<Task> _tasks;
 
         public AuthorizationStore(string connectionString)
         {
@@ -20,11 +21,17 @@ namespace Lockdown
             _application = store.OpenApplication("MyApp", null);
 
             _operations = GetOperations();
+            _tasks = GetTasks();
         }
 
         public IEnumerable<Operation> Operations
         {
             get { return _operations; }
+        }
+
+        public IEnumerable<Task> Tasks
+        {
+            get { return _tasks; }
         }
 
         private IEnumerable<Operation> GetOperations()
@@ -41,24 +48,33 @@ namespace Lockdown
             return GetEntityListFromAzmanEnumerator<IAzTask2, Role>(() => _application.Tasks, o => o.IsRoleDefinition == 1, CreateRole);
         }
 
-        private Role CreateRole(IAzTask2 o)
+        private Role CreateRole(IAzTask2 role)
         {
             var opNames = new List<string>();
-            foreach (var s in o.Operations)
+            foreach (var s in role.Operations)
             {
                 opNames.Add(s);
             }
 
             var operations = Operations.Where(op => opNames.Any(opName => opName == op.Name));
 
+            var taskNames = new List<string>();
+            foreach (var s in role.Tasks)
+            {
+                taskNames.Add(s);
+            }
+
+            var tasks = Tasks.Where(t => taskNames.Any(taskName => taskName == t.Name));
+
             return new Role
                        {
-                           Name = o.Name,
-                           Operations = operations
+                           Name = role.Name,
+                           Operations = operations,
+                           Tasks = tasks
                        };
         }
 
-        public IEnumerable<Task> GetTasks()
+        private IEnumerable<Task> GetTasks()
         {
             return GetEntityListFromAzmanEnumerator<IAzTask2, Task>(() => _application.Tasks, o => o.IsRoleDefinition != 1, o => new Task
                                                                                                     {
