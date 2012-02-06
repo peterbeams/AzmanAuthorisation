@@ -115,5 +115,9 @@ namespace Lockdown
 
             return entityList;
         }
+
+        public static void Create(string azmanStorePath)
+        {
+        }
     }
 }

@@ -76,6 +76,12 @@
       <DependentUpon>Get a list of roles.feature</DependentUpon>
     </Compile>
     <Compile Include="Roles\Steps.cs" />
+    <Compile Include="Store\Create a store.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Create a store.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Store\Steps.cs" />
     <Compile Include="Tasks\Get a list of tasks.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -96,6 +102,10 @@
     <None Include="Roles\Get a list of roles.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Get a list of roles.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Store\Create a store.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Create a store.feature.cs</LastGenOutput>
     </None>
     <None Include="Tasks\Get a list of tasks.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

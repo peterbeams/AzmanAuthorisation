@@ -14,10 +14,15 @@ namespace Lockdown.AcceptanceTests.Common
         [Given(@"I have an azman store")]
         public void GivenIHaveAnAzmanStore()
         {
-            TestContext.AzmanStorePath = Path.Combine(Path.GetTempPath(), Path.GetTempFileName());
+            SetPathToAzmanStore();
             var storeXml = GetType().LoadResourceFromAssemblyContainingType("Lockdown.AcceptanceTests.Common.Empty.xml");
             storeXml = string.Format(storeXml, Guid.NewGuid());
             File.WriteAllText(TestContext.AzmanStorePath, storeXml);
+        }
+
+        public static void SetPathToAzmanStore()
+        {
+            TestContext.AzmanStorePath = Path.Combine(Path.GetTempPath(), Path.GetTempFileName());
         }
 
         [Given(@"the store has an application called MyApp")]
