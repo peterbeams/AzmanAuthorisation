@@ -1,0 +1,10 @@
+
+*.user
+*.dll
+*.exe
+*.pdb
+bin
+obj
+*.suo
+_Resharper*
+/Lockdown/packages
