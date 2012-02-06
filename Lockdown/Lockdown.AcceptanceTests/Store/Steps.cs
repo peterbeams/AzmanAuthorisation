@@ -25,7 +25,7 @@ namespace Lockdown.AcceptanceTests.Store
         [When(@"I create a new store at the path")]
         public void WhenICreateANewStoreAtThePath()
         {
-            AuthorizationStore.Create(TestContext.AzmanStorePath);
+            AuthorizationStore.Create(string.Format("msxml://{0}", TestContext.AzmanStorePath));
         }
 
         [Then(@"I can open the new store")]

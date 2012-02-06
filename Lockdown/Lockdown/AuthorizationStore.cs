@@ -116,8 +116,15 @@ namespace Lockdown
             return entityList;
         }
 
-        public static void Create(string azmanStorePath)
+        public static void Create(string connectionString)
         {
+            var store = new AzAuthorizationStore();
+            store.Initialize(1, connectionString, null);
+
+            store.Submit();
+            
+            var app = store.CreateApplication("MyApp");
+            app.Submit();
         }
     }
 }
