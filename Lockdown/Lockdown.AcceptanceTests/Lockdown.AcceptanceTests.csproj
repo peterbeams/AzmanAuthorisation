@@ -56,6 +56,11 @@
   <ItemGroup>
     <Compile Include="Common\Resources.cs" />
     <Compile Include="Common\Steps.cs" />
+    <Compile Include="MVC\Operation Discovery.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Operation Discovery.feature</DependentUpon>
+    </Compile>
     <Compile Include="Operations\Get a list of operations1.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -91,6 +96,10 @@
     <Compile Include="TestContext.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="MVC\Operation Discovery.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Operation Discovery.feature.cs</LastGenOutput>
+    </None>
     <None Include="Operations\Get a list of operations.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Get a list of operations1.feature.cs</LastGenOutput>
@@ -119,6 +128,10 @@
     <Content Include="Common\SingleOperation.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Achme.MyApp\Achme.MyApp.csproj">
+      <Project>{4D90E40E-2A77-4692-A6A7-3C1D7CBC9265}</Project>
+      <Name>Achme.MyApp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lockdown\Lockdown.csproj">
       <Project>{B04FD0ED-E3D5-4B7A-83DF-318F57686EDA}</Project>
       <Name>Lockdown</Name>
