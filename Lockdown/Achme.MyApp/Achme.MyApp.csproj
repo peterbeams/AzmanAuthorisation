@@ -39,6 +39,15 @@
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.4.1.10331.0\lib\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="NServiceBus">
+      <HintPath>..\packages\NServiceBus.3.0.0-rc5\lib\net40\NServiceBus.dll</HintPath>
+    </Reference>
+    <Reference Include="NServiceBus.Core">
+      <HintPath>..\packages\NServiceBus.3.0.0-rc5\lib\net40\NServiceBus.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -140,6 +149,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lockdown.Messages\Lockdown.Messages.csproj">
+      <Project>{9AC7300C-75D5-42CB-B7BE-A0D3400E1DD7}</Project>
+      <Name>Lockdown.Messages</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lockdown.MVC\Lockdown.MVC.csproj">
       <Project>{D04976F2-1F16-4F08-8A6C-D9838CBBAD8F}</Project>
       <Name>Lockdown.MVC</Name>

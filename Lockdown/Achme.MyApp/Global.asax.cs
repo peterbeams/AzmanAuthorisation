@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Lockdown.MVC;
+using NServiceBus;
 
 namespace Achme.MyApp
 {
@@ -13,6 +14,8 @@ namespace Achme.MyApp
 
     public class MvcApplication : System.Web.HttpApplication
     {
+        private const string AppName = "AchmeApp";
+
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
@@ -32,13 +35,15 @@ namespace Achme.MyApp
         
         protected void Application_Start()
         {
+            Authorisation.Configure
+                .Application(AppName)
+                .ScanControllers(In.AssemlbyContaining<MvcApplication>())
+                .UseNamedPipeClient();
+
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
-
-            Authorisation.Configure
-                .ScanForControllers(In.AssemlbyContaining<MvcApplication>());
         }
     }
 }
