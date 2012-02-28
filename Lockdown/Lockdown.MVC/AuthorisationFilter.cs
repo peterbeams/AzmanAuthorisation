@@ -32,7 +32,7 @@ namespace Lockdown.MVC
         public static TokenStore Create(string appName)
         {
             var client = new AuthorizationClient();
-            var result = client.GetAuthorisedOperations(appName);
+            var result = client.GetAuthorisedOperations(appName, "peter", "");
             return new TokenStore(result);
         }
 
@@ -74,12 +74,34 @@ namespace Lockdown.MVC
             var tokenStore = TokenStore.Current(_appName);
             var authorised = tokenStore.IsAuthorized(opName);
 
-            if (!authorised)
+            if (authorised)
             {
-                throw new ControllerActionIsNotAuthorizedException(opName);
+                base.OnActionExecuting(filterContext);
+                return;
             }
 
-            base.OnActionExecuting(filterContext);
+            filterContext.Result = new HttpForbiddenResult();
         }
     }
+
+    public class HttpForbiddenResult : ContentResult
+    {
+        public HttpForbiddenResult()
+        {
+            Content = "403 Forbidden";
+            ContentType = "text/plain";
+        }
+
+        public override void ExecuteResult(ControllerContext context)
+        {
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+            
+            context.HttpContext.Response.StatusCode = 403;
+            base.ExecuteResult(context);
+        }
+    }
+
 }
