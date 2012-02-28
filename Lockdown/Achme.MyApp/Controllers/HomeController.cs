@@ -10,18 +10,18 @@ namespace Achme.MyApp.Controllers
     {
         public ActionResult About()
         {
-            throw new NotImplementedException();
+            return Content("about");
         }
 
         public ActionResult Index()
         {
-            throw new NotImplementedException();
+            return Content("index");
         }
 
         [HttpPost]
         public ActionResult Index(string data)
         {
-            throw new NotImplementedException();
+            return Content("index.data");
         }
     }
 }

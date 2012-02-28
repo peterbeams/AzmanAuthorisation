@@ -11,6 +11,10 @@ namespace Lockdown
 {
     public class AuthorizationStore
     {
+        //http://msdn.microsoft.com/en-us/library/windows/desktop/ms681382(v=vs.85).aspx
+        private const int ERROR_ACCESS_DENIED = 5;
+        private const int ERROR_SUCCESS = 0;
+
         private IAzApplication _application;
         private IList<Operation> _operations;
         private IList<Task> _tasks;
@@ -170,20 +174,30 @@ namespace Lockdown
             _operations.Add(new Operation { Id = id, Name = operationName });
         }
 
-        public string[] GetAuthroizedOperations(WindowsIdentity windowsIdentity)
+        public string[] GetAuthroizedOperations(string userName, string domain)
         {
-            var context = _application.InitializeClientContextFromToken((ulong)windowsIdentity.Token);
-            
-            var opIds = Operations.Select(o => o.Id).ToArray();
+            //var context = _application.InitializeClientContextFromToken((ulong)windowsIdentity.Token);
+            var context = _application.InitializeClientContextFromName("peter", "");
 
-            var result = (object[])context.AccessCheck(string.Empty, "default", opIds);
+            var opIds = Operations.Select(o => (object)o.Id).ToArray();
+            var scopes = new object[] { "default" };
 
-            foreach (var r in result)
+            var result = (object[])context.AccessCheck("Authz", scopes, opIds, null, null, null, null, null);
+
+            var ops = new List<string>();
+
+            //results will be in same order as opIds array
+            for (var i = 0; i < opIds.Length; i++)
             {
-                Console.WriteLine(r);
+                if ((int)result[i] == ERROR_SUCCESS)
+                {
+                    ops.Add(Operations.Single(o => o.Id == (int)opIds[i]).Name);
+                }
+
+                //todo: log out return value
             }
 
-            return null;
+            return ops.ToArray();
         }
     }
 }
