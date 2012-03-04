@@ -48,9 +48,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthorizationService.cs" />
-    <Compile Include="AuthorizedOperations.cs" />
+    <Compile Include="Data\AuthorizedOperations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserToken.cs" />
+    <Compile Include="Data\UserToken.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

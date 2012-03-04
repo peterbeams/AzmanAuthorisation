@@ -1,6 +1,7 @@
 ﻿using System.ServiceModel;
+using Lockdown.Messages.Data;
 
-namespace Lockdown.Messages.Commands
+namespace Lockdown.Messages
 {
     [ServiceContract]
     public interface AuthorizationService

@@ -1,5 +1,6 @@
 ﻿using System.ServiceModel;
-using Lockdown.Messages.Commands;
+using Lockdown.Messages;
+using Lockdown.Messages.Data;
 
 namespace Lockdown.MVC.Client
 {

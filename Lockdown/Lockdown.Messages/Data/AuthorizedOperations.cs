@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Lockdown.Messages.Commands
+namespace Lockdown.Messages.Data
 {
     [DataContract]
     public class AuthorizedOperations
