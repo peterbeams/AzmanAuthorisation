@@ -28,7 +28,7 @@ namespace Lockdown.MVC.Filters
 
             var opName = ConfigureFluent.GetOpName(m, _stripPrefix);
 
-            var tokenStore = TokenStore.Current(_appName, _clientFactory, _factory);
+            var tokenStore = OperationStore.Current(_appName, _clientFactory, _factory);
             var authorised = tokenStore.IsAuthorized(opName);
 
             if (authorised)

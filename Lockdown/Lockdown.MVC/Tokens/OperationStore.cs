@@ -7,37 +7,42 @@ using Lockdown.MVC.Client;
 
 namespace Lockdown.MVC.Tokens
 {
-    public class TokenStore
+    public class OperationStore
     {
         private readonly string[] _authzOps;
+        private const string GrantedOperationsSessionKey = "GrantedOperations";
 
         private static HttpSessionState Session
         {
             get { return HttpContext.Current.Session; }
         }
 
-        public static TokenStore Current(string appName, IAuthorizationClientFactory clientFactory, ITokenFactory factory)
+        public static OperationStore Current(string appName, IAuthorizationClientFactory clientFactory, ITokenFactory factory)
         {
-
-            var t = Session["TokenStore"] as TokenStore;
+            var t = Session[GrantedOperationsSessionKey] as OperationStore;
             if (t == null)
             {
                 t = Create(appName, clientFactory, factory);
-                Session["TokenStore"] = t;
+                Session[GrantedOperationsSessionKey] = t;
             }
             return t;
         }
 
-        public static TokenStore Create(string appName, IAuthorizationClientFactory clientFactory, ITokenFactory factory)
+        public static OperationStore Create(string appName, IAuthorizationClientFactory clientFactory, ITokenFactory factory)
         {
             var client = clientFactory.CreateClient();
             var token = factory.GetCurrent();
             var result = client.GetAuthorisedOperations(appName, token);
 
-            return new TokenStore(result);
+            return new OperationStore(result);
         }
 
-        public TokenStore(AuthorizedOperations ops)
+        public static void Clear()
+        {
+            Session[GrantedOperationsSessionKey] = null;
+        }
+
+        public OperationStore(AuthorizedOperations ops)
         {
             _authzOps = ops.OperationNames;
         }
