@@ -3,5 +3,6 @@
     public interface IClientConfig
     {
         void UseNamedPipeClient();
+        void UseDebugClient();
     }
 }

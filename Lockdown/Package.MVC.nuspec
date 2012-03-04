@@ -2,7 +2,7 @@
 <package >
 	<metadata>
 		<id>Lockdown.MVC</id>
-		<version>1.0.11</version>
+		<version>1.0.14</version>
 		<authors>Peter Beams</authors>
 		<owners>Peter Beams</owners>
 		<licenseUrl>http://github.com/peterbeams/AzmanAuthorisation</licenseUrl>
