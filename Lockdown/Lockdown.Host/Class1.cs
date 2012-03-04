@@ -11,11 +11,11 @@ namespace Lockdown.Host
     {
         private AuthorizationStore Store { get { return Program.Store;  } }
 
-        public AuthorizedOperations GetAuthorisedOperations(string appName, string userName, string domainName)
+        public AuthorizedOperations GetAuthorisedOperations(string appName, UserToken token)
         {
             Store.UsingApplication(appName);
 
-            var opNames = Store.GetAuthroizedOperations(userName, domainName);
+            var opNames = Store.GetAuthroizedOperations(token.Sids);
             return new AuthorizedOperations { OperationNames = opNames };
         }
 

@@ -17,9 +17,9 @@ namespace Lockdown.MVC
         {
         }
 
-        public AuthorizedOperations GetAuthorisedOperations(string appName, string userName, string domain)
+        public AuthorizedOperations GetAuthorisedOperations(string appName, UserToken token)
         {
-            return Channel.GetAuthorisedOperations(appName, userName, domain);
+            return Channel.GetAuthorisedOperations(appName, token);
         }
 
         public void RegisterOperations(string appName, string[] operationNames)
