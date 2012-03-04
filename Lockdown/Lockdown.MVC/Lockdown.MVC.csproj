@@ -48,10 +48,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client\DebugClient.cs" />
+    <Compile Include="Client\IAuthorizationClientFactory.cs" />
+    <Compile Include="Client\NamedPipeAuthorizationClient.cs" />
+    <Compile Include="Client\NamedPipeAuthorizationClientFactory.cs" />
     <Compile Include="Config\AssemblyScanConfig.cs" />
     <Compile Include="Authorisation.cs" />
     <Compile Include="Filters\AuthorisationFilter.cs" />
-    <Compile Include="Client\AuthorizationClient.cs" />
+    <Compile Include="Client\WCFAuthorizationClient.cs" />
     <Compile Include="Config\ConfigureFluent.cs" />
     <Compile Include="Config\IClientConfig.cs" />
     <Compile Include="Config\IConfigApp.cs" />

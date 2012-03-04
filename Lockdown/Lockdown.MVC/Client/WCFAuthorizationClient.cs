@@ -1,15 +1,14 @@
 ﻿using System.ServiceModel;
+using System.ServiceModel.Channels;
 using Lockdown.Messages;
 using Lockdown.Messages.Data;
 
 namespace Lockdown.MVC.Client
 {
-    public class AuthorizationClient : ClientBase<AuthorizationService>, AuthorizationService
+    public abstract class WCFAuthorizationClient : ClientBase<AuthorizationService>, AuthorizationService
     {
-        private static readonly NetNamedPipeBinding binding = new NetNamedPipeBinding();
-        
-        public AuthorizationClient()
-            : base(binding, new EndpointAddress("net.pipe://localhost/lockdown.host"))
+        protected WCFAuthorizationClient(Binding binding, EndpointAddress address)
+            : base(binding, address)
         {
         }
 

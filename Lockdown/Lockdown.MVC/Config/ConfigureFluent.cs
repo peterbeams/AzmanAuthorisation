@@ -70,10 +70,21 @@ namespace Lockdown.MVC.Config
 
         public void UseNamedPipeClient()
         {
-            GlobalFilters.Filters.Add(new AuthorisationFilter(name, _stripPrefix));
-            
             //register operations
-            var client = new AuthorizationClient();
+            var clientFactory = new NamedPipeAuthorizationClientFactory();
+            GlobalFilters.Filters.Add(new AuthorisationFilter(clientFactory, name, _stripPrefix));
+
+            var client = clientFactory.CreateClient();
+            client.RegisterOperations(name, operations.ToArray());
+        }
+
+        public void UseDebugClient()
+        {
+            //register operations
+            var clientFactory = new DebugClientFactory();
+            GlobalFilters.Filters.Add(new AuthorisationFilter(clientFactory, name, _stripPrefix));
+
+            var client = clientFactory.CreateClient();
             client.RegisterOperations(name, operations.ToArray());
         }
     }
