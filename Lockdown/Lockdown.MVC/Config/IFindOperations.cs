@@ -2,6 +2,6 @@
 {
     public interface IFindOperations
     {
-        IClientConfig ScanControllers(AssemblyScanConfig scanning);
+        ITokenFactoryConfig ScanControllers(AssemblyScanConfig scanning);
     }
 }
