@@ -8,10 +8,12 @@ namespace Lockdown.MVC.Filters
     public class AuthorisationFilter : ActionFilterAttribute
     {
         private readonly string _appName;
+        private readonly string _stripPrefix;
 
-        public AuthorisationFilter(string appName)
+        public AuthorisationFilter(string appName, string stripPrefix)
         {
             _appName = appName;
+            _stripPrefix = stripPrefix;
         }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -19,7 +21,7 @@ namespace Lockdown.MVC.Filters
             var t = (ReflectedActionDescriptor)filterContext.ActionDescriptor;
             var m = t.MethodInfo;
 
-            var opName = ConfigureFluent.GetOpName(m);
+            var opName = ConfigureFluent.GetOpName(m, _stripPrefix);
 
             var tokenStore = TokenStore.Current(_appName);
             var authorised = tokenStore.IsAuthorized(opName);
