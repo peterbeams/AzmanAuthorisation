@@ -2,16 +2,76 @@
 using System.ServiceModel;
 using Lockdown.Messages;
 using Lockdown.Messages.Data;
+using log4net;
+using log4net.Appender;
+using log4net.Config;
+using log4net.Core;
+using log4net.Layout;
 
 namespace Lockdown.Host
 {
+    /// <summary>
+    /// Handles logging configuration for the lite profile.
+    /// </summary>
+    public class LoggingConfig
+    {
+        public static void ConfigureConsole()
+        {
+            var appender = new ColoredConsoleAppender
+                               {
+                                   Threshold = Level.Info,
+                                   Layout = new PatternLayout("%timestamp [%thread] %level %logger %ndc - %message%newline"),
+                                   Name = "Default",
+                                   Target = ColoredConsoleAppender.ConsoleOut
+                               };
+            ConfigColours(appender);
+            appender.ActivateOptions();
+            BasicConfigurator.Configure(appender);
+        }
+
+        public static void ConfigColours(ColoredConsoleAppender a)
+        {
+            a.AddMapping(
+                new ColoredConsoleAppender.LevelColors
+                {
+                    Level = Level.Debug,
+                    ForeColor = ColoredConsoleAppender.Colors.White
+                });
+            a.AddMapping(
+                new ColoredConsoleAppender.LevelColors
+                {
+                    Level = Level.Info,
+                    ForeColor = ColoredConsoleAppender.Colors.Green
+                });
+            a.AddMapping(
+                new ColoredConsoleAppender.LevelColors
+                {
+                    Level = Level.Warn,
+                    ForeColor = ColoredConsoleAppender.Colors.Yellow | ColoredConsoleAppender.Colors.HighIntensity
+                });
+            a.AddMapping(
+                new ColoredConsoleAppender.LevelColors
+                {
+                    Level = Level.Error,
+                    ForeColor = ColoredConsoleAppender.Colors.Red | ColoredConsoleAppender.Colors.HighIntensity
+                });
+        }
+    }
+
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class AzmanAuthzService : AuthorizationService
     {
-        private AuthorizationStore Store { get { return Program.Store; } }
+        private AuthorizationStore Store { get { return AuthzServiceHost.Store; } }
+
+        private ILog Log
+        {
+            get { return LogManager.GetLogger(typeof (AzmanAuthzService)); }
+        }
 
         public AuthorizedOperations GetAuthorisedOperations(string appName, UserToken token)
         {
+            Log.Info("Call made to GetAuthorisedOperations");
+
             try
             {
                 Store.UsingApplication(appName);
@@ -21,13 +81,15 @@ namespace Lockdown.Host
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                Log.Error(ex.Message, ex);
                 throw;
             }
         }
 
         public void RegisterOperations(string appName, string[] operationNames)
         {
+            Log.Info("Call made to RegisterOperations");
+
             try
             {
                 Store.UsingApplication(appName);
@@ -35,7 +97,7 @@ namespace Lockdown.Host
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                Log.Error(ex.Message, ex);
                 throw;
             }
         }
