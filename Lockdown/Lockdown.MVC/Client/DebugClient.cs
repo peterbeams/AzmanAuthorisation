@@ -6,7 +6,7 @@ namespace Lockdown.MVC.Client
 {
     public class DebugClient : AuthorizationService
     {
-        private string[] _operationNames;
+        private static string[] _operationNames;
 
         public AuthorizedOperations GetAuthorisedOperations(string appName, UserToken token)
         {
