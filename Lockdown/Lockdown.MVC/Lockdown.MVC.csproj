@@ -51,6 +51,7 @@
     <Compile Include="Client\DebugClient.cs" />
     <Compile Include="Client\IAuthorizationClientFactory.cs" />
     <Compile Include="Config\ITokenFactoryConfig.cs" />
+    <Compile Include="Tokens\AbstractTokenFactory.cs" />
     <Compile Include="Tokens\ITokenFactory.cs" />
     <Compile Include="Client\NamedPipeAuthorizationClient.cs" />
     <Compile Include="Client\NamedPipeAuthorizationClientFactory.cs" />
@@ -66,7 +67,7 @@
     <Compile Include="Exceptions\ControllerActionIsNotAuthorizedException.cs" />
     <Compile Include="ActionResults\HttpForbiddenResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tokens\TokenStore.cs" />
+    <Compile Include="Tokens\OperationStore.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
