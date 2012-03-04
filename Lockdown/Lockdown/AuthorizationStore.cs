@@ -15,14 +15,14 @@ namespace Lockdown
         private const int ERROR_ACCESS_DENIED = 5;
         private const int ERROR_SUCCESS = 0;
 
-        private IAzApplication _application;
+        private IAzApplication3 _application;
         private IList<Operation> _operations;
         private IList<Task> _tasks;
-        private AzAuthorizationStore _store;
+        private IAzAuthorizationStore3 _store;
 
         public AuthorizationStore(string connectionString)
         {
-            _store = new AzAuthorizationStore();
+            _store = (IAzAuthorizationStore3)new AzAuthorizationStore();
             _store.Initialize(0, connectionString, null);
         }
 
@@ -133,7 +133,7 @@ namespace Lockdown
         {
             if (_application == null)
             {
-                _application = _store.OpenApplication(appName, null);
+                _application = (IAzApplication3)_store.OpenApplication(appName, null);
 
                 _operations = GetOperations();
                 _tasks = GetTasks();
@@ -174,10 +174,11 @@ namespace Lockdown
             _operations.Add(new Operation { Id = id, Name = operationName });
         }
 
-        public string[] GetAuthroizedOperations(string userName, string domain)
+        public string[] GetAuthroizedOperations(string[] sids)
         {
-            //var context = _application.InitializeClientContextFromToken((ulong)windowsIdentity.Token);
-            var context = _application.InitializeClientContextFromName("peter", "");
+            var context = _application.InitializeClientContext2("identity");
+            var sidArray = sids.Cast<object>().ToArray();
+            context.AddStringSids(sidArray);
 
             var opIds = Operations.Select(o => (object)o.Id).ToArray();
             var scopes = new object[] { "default" };

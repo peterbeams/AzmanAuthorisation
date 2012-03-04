@@ -6,7 +6,8 @@ namespace Lockdown.Messages.Commands
     public interface AuthorizationService
     {
         [OperationContract]
-        AuthorizedOperations GetAuthorisedOperations(string appName, string userName, string domainName);
+        AuthorizedOperations GetAuthorisedOperations(string appName, UserToken token);
+
         [OperationContract]
         void RegisterOperations(string appName, string[] operationNames);
     }
