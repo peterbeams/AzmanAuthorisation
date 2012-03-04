@@ -12,14 +12,24 @@ namespace Lockdown.MVC.Tokens
         private readonly string[] _authzOps;
         private const string GrantedOperationsSessionKey = "GrantedOperations";
 
+        public string[] Values
+        {
+            get { return _authzOps; }
+        }
+
         private static HttpSessionState Session
         {
             get { return HttpContext.Current.Session; }
         }
 
+        public static OperationStore Stored
+        {
+            get { return Session[GrantedOperationsSessionKey] as OperationStore; }
+        }
+
         public static OperationStore Current(string appName, IAuthorizationClientFactory clientFactory, ITokenFactory factory)
         {
-            var t = Session[GrantedOperationsSessionKey] as OperationStore;
+            var t = Stored;
             if (t == null)
             {
                 t = Create(appName, clientFactory, factory);
