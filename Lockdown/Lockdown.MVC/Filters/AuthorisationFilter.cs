@@ -7,11 +7,13 @@ namespace Lockdown.MVC.Filters
 {
     public class AuthorisationFilter : ActionFilterAttribute
     {
+        private readonly IAuthorizationClientFactory _clientFactory;
         private readonly string _appName;
         private readonly string _stripPrefix;
 
-        public AuthorisationFilter(string appName, string stripPrefix)
+        public AuthorisationFilter(IAuthorizationClientFactory clientFactory, string appName, string stripPrefix)
         {
+            _clientFactory = clientFactory;
             _appName = appName;
             _stripPrefix = stripPrefix;
         }
@@ -23,7 +25,7 @@ namespace Lockdown.MVC.Filters
 
             var opName = ConfigureFluent.GetOpName(m, _stripPrefix);
 
-            var tokenStore = TokenStore.Current(_appName);
+            var tokenStore = TokenStore.Current(_appName, _clientFactory);
             var authorised = tokenStore.IsAuthorized(opName);
 
             if (authorised)

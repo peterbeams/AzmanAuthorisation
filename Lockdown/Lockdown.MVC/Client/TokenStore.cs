@@ -15,21 +15,21 @@ namespace Lockdown.MVC.Client
             get { return HttpContext.Current.Session; }
         }
 
-        public static TokenStore Current(string appName)
+        public static TokenStore Current(string appName, IAuthorizationClientFactory clientFactory)
         {
 
             var t = Session["TokenStore"] as TokenStore;
             if (t == null)
             {
-                t = Create(appName);
+                t = Create(appName, clientFactory);
                 Session["TokenStore"] = t;
             }
             return t;
         }
 
-        public static TokenStore Create(string appName)
+        public static TokenStore Create(string appName, IAuthorizationClientFactory clientFactory)
         {
-            var client = new AuthorizationClient();
+            var client = clientFactory.CreateClient();
 
             var sids = new[]
                            {
