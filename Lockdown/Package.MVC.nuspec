@@ -2,7 +2,7 @@
 <package >
 	<metadata>
 		<id>Lockdown.MVC</id>
-		<version>1.0.0</version>
+		<version>1.0.11</version>
 		<authors>Peter Beams</authors>
 		<owners>Peter Beams</owners>
 		<licenseUrl>http://github.com/peterbeams/AzmanAuthorisation</licenseUrl>
@@ -19,5 +19,9 @@
 	<files>
 		<file src="BuildOutput\Lockdown.Messages.dll" target="lib\NET40" />
 		<file src="BuildOutput\Lockdown.MVC.dll" target="lib\NET40" />
+		<file src="BuildOutput\Lockdown.Messages.dll" target="server" />
+		<file src="BuildOutput\Lockdown.dll" target="server" />
+		<file src="BuildOutput\Lockdown.Host.exe" target="server" />
+		<file src="BuildOutput\Lockdown.Host.exe.config" target="server" />
 	</files>
 </package>
