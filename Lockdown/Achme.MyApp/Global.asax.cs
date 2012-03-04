@@ -39,6 +39,7 @@ namespace Achme.MyApp
             Authorisation.Configure
                 .Application(AppName)
                 .ScanControllers(In.AssemblyContaining<MvcApplication>())
+                .UseTokenFactory(() => null)
                 .UseNamedPipeClient();
 
             AreaRegistration.RegisterAllAreas();

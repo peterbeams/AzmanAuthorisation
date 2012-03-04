@@ -5,14 +5,16 @@ using System.Reflection;
 using System.Web.Mvc;
 using Lockdown.MVC.Client;
 using Lockdown.MVC.Filters;
+using Lockdown.MVC.Tokens;
 
 namespace Lockdown.MVC.Config
 {
-    public class ConfigureFluent : IFindOperations, IClientConfig, IConfigApp
+    public class ConfigureFluent : IFindOperations, IClientConfig, IConfigApp, ITokenFactoryConfig
     {
         private List<string> operations = new List<string>();
         private string name;
         private string _stripPrefix;
+        private ITokenFactory _tokenFactory;
 
         public IFindOperations Application(string name)
         {
@@ -20,7 +22,19 @@ namespace Lockdown.MVC.Config
             return this;
         }
 
-        public IClientConfig ScanControllers(AssemblyScanConfig scanning)
+        public IClientConfig UseTokenFactory<T>() where T : ITokenFactory, new()
+        {
+            _tokenFactory = new T();
+            return this;
+        }
+
+        public IClientConfig UseTokenFactory(Func<ITokenFactory> createFactoryFunction)
+        {
+            _tokenFactory = createFactoryFunction.Invoke();
+            return this;
+        }
+
+        public ITokenFactoryConfig ScanControllers(AssemblyScanConfig scanning)
         {
             _stripPrefix = scanning.StripPrefix;
 
@@ -70,19 +84,17 @@ namespace Lockdown.MVC.Config
 
         public void UseNamedPipeClient()
         {
-            //register operations
-            var clientFactory = new NamedPipeAuthorizationClientFactory();
-            GlobalFilters.Filters.Add(new AuthorisationFilter(clientFactory, name, _stripPrefix));
-
-            var client = clientFactory.CreateClient();
-            client.RegisterOperations(name, operations.ToArray());
+            UseClient(new NamedPipeAuthorizationClientFactory());
         }
 
         public void UseDebugClient()
         {
-            //register operations
-            var clientFactory = new DebugClientFactory();
-            GlobalFilters.Filters.Add(new AuthorisationFilter(clientFactory, name, _stripPrefix));
+            UseClient(new DebugClientFactory());
+        }
+
+        private void UseClient(IAuthorizationClientFactory clientFactory)
+        {
+            GlobalFilters.Filters.Add(new AuthorisationFilter(clientFactory, _tokenFactory, name, _stripPrefix));
 
             var client = clientFactory.CreateClient();
             client.RegisterOperations(name, operations.ToArray());
