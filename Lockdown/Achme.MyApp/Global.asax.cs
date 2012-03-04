@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Lockdown.MVC;
+using Lockdown.MVC.Config;
 using NServiceBus;
 
 namespace Achme.MyApp

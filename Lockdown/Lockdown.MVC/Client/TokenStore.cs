@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Linq;
-using System.Security;
 using System.Web;
-using System.Web.Mvc;
 using System.Web.SessionState;
 using Lockdown.Messages.Commands;
 
-namespace Lockdown.MVC
+namespace Lockdown.MVC.Client
 {
     public class TokenStore
     {
@@ -65,62 +63,4 @@ namespace Lockdown.MVC
             return _authzOps.Any(o => o.Equals(operationName, StringComparison.InvariantCultureIgnoreCase));
         }
     }
-
-    public class ControllerActionIsNotAuthorizedException : SecurityException
-    {
-        public ControllerActionIsNotAuthorizedException(string operationName)
-            : base(string.Format("Operation '{0}' is not authorized for current user.", operationName))
-        {
-        }
-    }
-
-    public class AuthorisationFilter : ActionFilterAttribute
-    {
-        private readonly string _appName;
-
-        public AuthorisationFilter(string appName)
-        {
-            _appName = appName;
-        }
-
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            var t = (ReflectedActionDescriptor)filterContext.ActionDescriptor;
-            var m = t.MethodInfo;
-
-            var opName = ConfigureFluent.GetOpName(m);
-
-            var tokenStore = TokenStore.Current(_appName);
-            var authorised = tokenStore.IsAuthorized(opName);
-
-            if (authorised)
-            {
-                base.OnActionExecuting(filterContext);
-                return;
-            }
-
-            filterContext.Result = new HttpForbiddenResult();
-        }
-    }
-
-    public class HttpForbiddenResult : ContentResult
-    {
-        public HttpForbiddenResult()
-        {
-            Content = "403 Forbidden";
-            ContentType = "text/plain";
-        }
-
-        public override void ExecuteResult(ControllerContext context)
-        {
-            if (context == null)
-            {
-                throw new ArgumentNullException("context");
-            }
-
-            context.HttpContext.Response.StatusCode = 403;
-            base.ExecuteResult(context);
-        }
-    }
-
 }

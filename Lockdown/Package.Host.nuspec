@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package >
+	<metadata>
+		<id>Lockdown.Host</id>
+		<version>1.0.0</version>
+		<authors>Peter Beams</authors>
+		<owners>Peter Beams</owners>
+		<licenseUrl>http://github.com/peterbeams/AzmanAuthorisation</licenseUrl>
+		<projectUrl>http://github.com/peterbeams/AzmanAuthorisation</projectUrl>
+		<iconUrl>http://github.com/peterbeams/AzmanAuthorisation</iconUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>Lockdown framework for AzMan Authorisation</description>
+		<releaseNotes></releaseNotes>
+		<copyright>Copyright 2012</copyright>
+		<tags>Authorisation Azman</tags>
+		<dependencies>		  
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="BuildOutput\Lockdown.Messages.dll" target="lib\NET40" />
+		<file src="BuildOutput\Lockdown.dll" target="lib\NET40" />
+		<file src="BuildOutput\Lockdown.Host.exe" target="lib\NET40" />
+		<file src="BuildOutput\Lockdown.Host.exe.config" target="content" />
+	</files>
+</package>

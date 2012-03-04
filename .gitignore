@@ -8,3 +8,5 @@ obj
 *.suo
 _Resharper*
 /Lockdown/packages
+/Lockdown/BuildOuput
+BuildOutput
