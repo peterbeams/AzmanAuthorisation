@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Web;
 using System.Web.SessionState;
-using Lockdown.Messages.Commands;
+using Lockdown.Messages.Data;
 
 namespace Lockdown.MVC.Client
 {

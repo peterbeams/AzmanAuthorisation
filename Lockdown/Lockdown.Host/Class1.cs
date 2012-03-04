@@ -2,7 +2,8 @@
 using System.Configuration;
 using System.Security.Principal;
 using System.ServiceModel;
-using Lockdown.Messages.Commands;
+using Lockdown.Messages;
+using Lockdown.Messages.Data;
 
 namespace Lockdown.Host
 {
