@@ -4,20 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using Lockdown.MVC.Client;
+using Lockdown.MVC.Tokens;
 
 namespace Lockdown.MVC
 {
     public static class ScriptExtensions
     {
+        internal static IAuthorizationClientFactory ClientFactory;
+        internal static ITokenFactory TokenFactory;
+        internal static string AppName;
+
         public static IHtmlString LockdownScriptBlock(this HtmlHelper html)
         {
-            var ops = new List<string>
-                          {
-                              "Orders.HomeController.Index",
-                              "Orders.AddressController.Edit[POST]",
-                              "Catalogue.ProductController.Index[POST]",
-                              "Orders.CancelController.Confirm"
-                            };
+            var ops = new List<string>(OperationStore.Current(AppName, ClientFactory, TokenFactory).Values);
             
             foreach (var o in ops.Where(o => o.EndsWith(".Index", StringComparison.InvariantCultureIgnoreCase) || o.EndsWith(".Index[POST]", StringComparison.InvariantCultureIgnoreCase)).ToArray())
             {
