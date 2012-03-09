@@ -19,18 +19,21 @@ namespace Lockdown.MVC.Config
         public IFindOperations Application(string name)
         {
             this.name = name;
+            ScriptExtensions.AppName = name;
             return this;
         }
 
         public IClientConfig UseTokenFactory<T>() where T : ITokenFactory, new()
         {
             _tokenFactory = new T();
+            ScriptExtensions.TokenFactory = _tokenFactory;
             return this;
         }
 
         public IClientConfig UseTokenFactory(Func<ITokenFactory> createFactoryFunction)
         {
             _tokenFactory = createFactoryFunction.Invoke();
+            ScriptExtensions.TokenFactory = _tokenFactory;
             return this;
         }
 
@@ -72,7 +75,11 @@ namespace Lockdown.MVC.Config
 
             opName = opName.Replace(".Areas", string.Empty);
             opName = opName.Replace(".Controllers", string.Empty);
-            opName = opName.Replace(stripPrefix, string.Empty);
+
+            if (!string.IsNullOrEmpty(stripPrefix))
+            {
+                opName = opName.Replace(stripPrefix, string.Empty);
+            }
 
             if (opName.StartsWith("."))
             {
@@ -95,6 +102,8 @@ namespace Lockdown.MVC.Config
         private void UseClient(IAuthorizationClientFactory clientFactory)
         {
             GlobalFilters.Filters.Add(new AuthorisationFilter(clientFactory, _tokenFactory, name, _stripPrefix));
+
+            ScriptExtensions.ClientFactory = clientFactory;
 
             var client = clientFactory.CreateClient();
             client.RegisterOperations(name, operations.ToArray());

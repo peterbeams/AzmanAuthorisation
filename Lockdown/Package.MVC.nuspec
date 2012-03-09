@@ -2,7 +2,7 @@
 <package >
 	<metadata>
 		<id>Lockdown.MVC</id>
-		<version>1.0.18</version>
+		<version>1.0.19</version>
 		<authors>Peter Beams</authors>
 		<owners>Peter Beams</owners>
 		<licenseUrl>http://github.com/peterbeams/AzmanAuthorisation</licenseUrl>
@@ -23,5 +23,6 @@
 		<file src="BuildOutput\Lockdown.dll" target="server" />
 		<file src="BuildOutput\Lockdown.Host.exe" target="server" />
 		<file src="BuildOutput\Lockdown.Host.exe.config" target="server" />
+		<file src="BuildOutput\Lockdown.js" target="scripts" />
 	</files>
 </package>

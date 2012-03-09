@@ -4,8 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Lockdown.Messages.Data;
 using Lockdown.MVC;
 using Lockdown.MVC.Config;
+using Lockdown.MVC.Tokens;
 using NServiceBus;
 
 namespace Achme.MyApp
@@ -36,16 +38,29 @@ namespace Achme.MyApp
         
         protected void Application_Start()
         {
-            //Authorisation.Configure
-            //    .Application(AppName)
-            //    .ScanControllers(In.AssemblyContaining<MvcApplication>())
-            //    .UseTokenFactory(() => null)
-            //    .UseNamedPipeClient();
+            Authorisation.Configure
+                .Application(AppName)
+                .ScanControllers(In.AssemblyContaining<MvcApplication>("Achme.MyApp"))
+                .UseTokenFactory<TokenFactory>()
+                .UseDebugClient();
 
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+        }
+    }
+
+    public class TokenFactory : ITokenFactory
+    {
+        public UserToken GetCurrent()
+        {
+            return new UserToken();
+        }
+
+        public void Clear()
+        {
+            
         }
     }
 }
