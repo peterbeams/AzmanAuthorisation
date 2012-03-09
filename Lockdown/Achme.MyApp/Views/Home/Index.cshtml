@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "ViewPage1";
+}
+
+<h2>ViewPage1</h2>
+
+@using (Html.BeginForm("Index", "Product", new { area = "Catalogue" }))
+{
+    <input type="submit" value="Save" />
+}
+
+@using (Html.BeginForm("Index", "Product", new { area = "Catalogue", x = "abc" }))
+{
+    <input type="submit" value="Save" />
+}
+
+@using (Html.BeginForm("Index", "Product", new { area = "Catalogue", id = "5" }))
+{
+    <input type="submit" value="Save" />
+}
+
+@using (Html.BeginForm("Index", "Product", new { area = "Fish", id = "5" }))
+{
+    <input type="submit" value="Save" />
+}
+
+@Html.ActionLink("View an order", "View", "Order", new { id = 3 }, new { })

@@ -36,11 +36,11 @@ namespace Achme.MyApp
         
         protected void Application_Start()
         {
-            Authorisation.Configure
-                .Application(AppName)
-                .ScanControllers(In.AssemblyContaining<MvcApplication>())
-                .UseTokenFactory(() => null)
-                .UseNamedPipeClient();
+            //Authorisation.Configure
+            //    .Application(AppName)
+            //    .ScanControllers(In.AssemblyContaining<MvcApplication>())
+            //    .UseTokenFactory(() => null)
+            //    .UseNamedPipeClient();
 
             AreaRegistration.RegisterAllAreas();
 

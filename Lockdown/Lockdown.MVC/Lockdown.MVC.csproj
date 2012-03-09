@@ -51,6 +51,7 @@
     <Compile Include="Client\DebugClient.cs" />
     <Compile Include="Client\IAuthorizationClientFactory.cs" />
     <Compile Include="Config\ITokenFactoryConfig.cs" />
+    <Compile Include="ScriptExtensions.cs" />
     <Compile Include="Tokens\AbstractTokenFactory.cs" />
     <Compile Include="Tokens\ITokenFactory.cs" />
     <Compile Include="Client\NamedPipeAuthorizationClient.cs" />
