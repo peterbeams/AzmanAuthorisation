@@ -15,7 +15,7 @@ namespace Achme.MyApp.Controllers
 
         public ActionResult Index()
         {
-            return Content("index");
+            return View();
         }
 
         [HttpPost]
