@@ -18,35 +18,27 @@ namespace Lockdown.Host
         {
             if (args != null && args.Length > 0)
             {
-                if (args[0].Equals("/install", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    Console.WriteLine("Running Service Installer");
-
-                    
-                }
-
                 if (args[0].Equals("/service", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    var services = new ServiceBase[] { new WindowsServiceHost() };
-                    ServiceBase.Run(services);
-                    return;
+                    LoggingConfig.ConfigureConsole();
+
+                    Log.Info("Running Lockdown Host.");
+                    Log.Info("To install host as windows service run with /install argument.");
+
+                    var host = new AuthzServiceHost();
+                    host.Start();
+
+                    Log.Info("Host Started.");
+
+                    do
+                    {
+                        Thread.Sleep(60000);
+                    } while (true);
                 }
             }
 
-            LoggingConfig.ConfigureConsole();
-
-            Log.Info("Running Lockdown Host.");
-            Log.Info("To install host as windows service run with /install argument.");
-
-            var host = new AuthzServiceHost();
-            host.Start();
-
-            Log.Info("Host Started.");
-
-            do
-            {
-                Thread.Sleep(60000);
-            } while (true);
+            var services = new ServiceBase[] { new WindowsServiceHost() };
+            ServiceBase.Run(services);
         }
     }
 }
