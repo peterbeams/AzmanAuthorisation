@@ -6,6 +6,11 @@ namespace Lockdown.Host
     {
         private AuthzServiceHost _host;
 
+        public WindowsServiceHost()
+        {
+            ServiceName = "Lockdown Host";
+        }
+
         protected override void OnStart(string[] args)
         {
             base.OnStart(args);
