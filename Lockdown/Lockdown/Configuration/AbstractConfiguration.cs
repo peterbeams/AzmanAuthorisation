@@ -14,6 +14,11 @@ namespace Lockdown.Configuration
         {
             return null;
         }
+
+        protected IRole Role(string name)
+        {
+            return null;
+        }
     }
 
     public interface ITask : IDefineWhatATaskUses
@@ -24,5 +29,15 @@ namespace Lockdown.Configuration
     {
         ITask Uses<T>(Expression<Func<T, ActionResult>> action);
         ITask Uses(ITask subTask);
+    }
+
+    public interface IRole : IDefineWhatARoleDoes
+    {
+    }
+
+    public interface IDefineWhatARoleDoes
+    {
+        IRole Can(ITask task);
+        IRole Inherits(IRole inheritFrom);
     }
 }

@@ -9,10 +9,6 @@ namespace SampleMVCApplication
 {
     public class AuthzConfiguration : AbstractConfiguration
     {
-        private ITask createUserTask;
-        private ITask viewUser;
-        private ITask listUsers;
-
         public ITask ViewUser
         {
             get
@@ -38,8 +34,28 @@ namespace SampleMVCApplication
             get
             {
                 return Task("ListUsers")
-                            .Uses<UserController>(c => c.Index())
-                            .Uses(ViewUser);
+                    .Uses<UserController>(c => c.Index())
+                    .Uses(ViewUser);
+            }
+        }
+
+        public IRole HumanResourcesManager
+        {
+            get
+            {
+                return Role("Human Resources Manager")
+                        .Inherits(HumanResourcesOperative);
+            }
+        }
+
+        public IRole HumanResourcesOperative
+        {
+            get
+            {
+                return Role("Human Resources Operative")
+                    .Can(ListUsers)
+                    .Can(ViewUser)
+                    .Can(CreateUser);
             }
         }
     }
