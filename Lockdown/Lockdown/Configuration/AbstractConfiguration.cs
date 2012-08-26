@@ -21,5 +21,6 @@ namespace Lockdown.Configuration
     public interface IDefineWhatATaskUses
     {
         ITask Uses<T>(Expression<Func<T, ActionResult>> action);
+        ITask Uses(ITask subTask);
     }
 }
