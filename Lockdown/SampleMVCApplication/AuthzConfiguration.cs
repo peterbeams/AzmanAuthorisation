@@ -13,19 +13,34 @@ namespace SampleMVCApplication
         private ITask viewUser;
         private ITask listUsers;
 
-        public override void Configure()
+        public ITask ViewUser
         {
-            viewUser = Task("ViewUser")
+            get
+            {
+                return Task("ViewUser")
                         .Uses<UserController>(c => c.Index(0));
+            }
+        }
 
-            createUserTask = Task("CreateUser")
+        public ITask CreateUser
+        {
+            get
+            {
+                return Task("CreateUser")
                                 .Uses<UserController>(c => c.Create())
                                 .Uses<UserController>(c => c.Create(null))
-                                .Uses(viewUser);
+                                .Uses(ViewUser);
+            }
+        }
 
-            listUsers = Task("ListUsers")
+        public ITask ListUsers
+        {
+            get
+            {
+                return Task("ListUsers")
                             .Uses<UserController>(c => c.Index())
-                            .Uses(viewUser);
+                            .Uses(ViewUser);
+            }
         }
     }
 }

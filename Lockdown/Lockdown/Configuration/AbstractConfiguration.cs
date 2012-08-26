@@ -6,7 +6,9 @@ namespace Lockdown.Configuration
 {
     public abstract class AbstractConfiguration : IDefineRoles
     {
-        public abstract void Configure();
+        public void Configure()
+        {
+        }
 
         protected ITask Task(string name)
         {
