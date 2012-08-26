@@ -52,6 +52,20 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lockdown.Host\Lockdown.Host.csproj">
+      <Project>{9a556890-1ba7-4ffc-8139-f98a3caffc38}</Project>
+      <Name>Lockdown.Host</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lockdown.Messages\Lockdown.Messages.csproj">
+      <Project>{9ac7300c-75d5-42cb-b7be-a0d3400e1dd7}</Project>
+      <Name>Lockdown.Messages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lockdown\Lockdown.csproj">
+      <Project>{b04fd0ed-e3d5-4b7a-83df-318f57686eda}</Project>
+      <Name>Lockdown</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
