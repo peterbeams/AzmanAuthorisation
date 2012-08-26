@@ -22,12 +22,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lockdown.Host", "Lockdown.H
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Lockdown", "Tests.Lockdown\Tests.Lockdown.csproj", "{B6F3C13F-CFCD-47B0-8219-AEF402DC6AA0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApplication", "SampleApplication\SampleApplication.csproj", "{98800F5F-BAB7-4829-9F5E-E5099F8B20F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{98800F5F-BAB7-4829-9F5E-E5099F8B20F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98800F5F-BAB7-4829-9F5E-E5099F8B20F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98800F5F-BAB7-4829-9F5E-E5099F8B20F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98800F5F-BAB7-4829-9F5E-E5099F8B20F3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9A556890-1BA7-4FFC-8139-F98A3CAFFC38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9A556890-1BA7-4FFC-8139-F98A3CAFFC38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A556890-1BA7-4FFC-8139-F98A3CAFFC38}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -53,6 +59,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{98800F5F-BAB7-4829-9F5E-E5099F8B20F3} = {B7B73145-C3D7-4AEF-BAE8-861175322813}
 		{9A556890-1BA7-4FFC-8139-F98A3CAFFC38} = {DAAE82B9-821E-4E8D-8AAA-982D22396B9B}
 		{9AC7300C-75D5-42CB-B7BE-A0D3400E1DD7} = {DAAE82B9-821E-4E8D-8AAA-982D22396B9B}
 		{B04FD0ED-E3D5-4B7A-83DF-318F57686EDA} = {DAAE82B9-821E-4E8D-8AAA-982D22396B9B}
