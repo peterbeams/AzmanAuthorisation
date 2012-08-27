@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lockdown.Configuration;
+using Lockdown.Configuration.Operations;
 using Machine.Specifications;
 using Tests.Lockdown.Configuration.Areas;
 using Tests.Lockdown.Configuration.Controllers;

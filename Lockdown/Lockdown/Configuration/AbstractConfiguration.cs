@@ -5,32 +5,6 @@ using System.Web.Mvc;
 
 namespace Lockdown.Configuration
 {
-    public class OperationFactory
-    {
-        public OperationIdentifier CreateForMethodCall<T>(Expression<Action<T>>  action)
-        {
-            var lambda = (LambdaExpression) action;
-            var expr = (MethodCallExpression) lambda.Body;
-
-            var typeName = expr.Method.DeclaringType.FullName;
-            var methodName = expr.Method.Name;
-
-            typeName = typeName.Replace(".Areas.", ".");
-            typeName = typeName.Replace(".Controllers.", ".");
-            
-            
-            if (typeName.EndsWith("Controller"))
-            {
-                typeName = typeName.Substring(0, typeName.Length - 10);
-            }
-
-            return new OperationIdentifier
-                       {
-                           Name = string.Concat(typeName, ".", methodName)
-                       };
-        }
-    }
-
     public class OperationIdentifier
     {
         public int Id { get; set; }
