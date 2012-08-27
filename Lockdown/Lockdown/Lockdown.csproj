@@ -50,6 +50,7 @@
     <Compile Include="Configuration\AbstractConfiguration.cs" />
     <Compile Include="Configuration\IDefineRoles.cs" />
     <Compile Include="Configuration\IOperationDefinitionStrategy.cs" />
+    <Compile Include="Configuration\Operations\AppendPostToNameForHttpPostMethods.cs" />
     <Compile Include="Configuration\Operations\IModifyOperationName.cs" />
     <Compile Include="Configuration\Operations\OperationFactory.cs" />
     <Compile Include="Configuration\Operations\RemoveAreasNamespaceModifier.cs" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using Lockdown.Configuration;
 using Lockdown.Configuration.Operations;
 using Machine.Specifications;
@@ -57,6 +58,18 @@ namespace Tests.Lockdown.Configuration
             result.Name.ShouldEqual("Tests.Lockdown.Configuration.SampleInControllerNS.SampleMethod");
     }
 
+    public class when_creating_operation_with_method_that_is_http_post : OperationFactoryContext
+    {
+        private Because of = () =>
+                             result = target.CreateForMethodCall<SampleController>(c => c.SamplePost());
+
+        private It name_should_end_with_post = () =>
+                                               result.Name.ShouldEndWith("[POST]");
+
+        private It name_should_be_type_then_method = () =>
+                                                     result.Name.ShouldStartWith("Tests.Lockdown.Configuration.Sample.SamplePost");
+    }
+
     public class SampleClass
     {
         public void SampleMethod()
@@ -67,6 +80,11 @@ namespace Tests.Lockdown.Configuration
     public class SampleController
     {
         public void SampleMethod()
+        {
+        }
+
+        [HttpPost]
+        public void SamplePost()
         {
         }
     }

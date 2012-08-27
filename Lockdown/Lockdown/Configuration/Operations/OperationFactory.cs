@@ -5,17 +5,13 @@ namespace Lockdown.Configuration.Operations
 {
     public class OperationFactory
     {
-        public IModifyOperationName[] nameModifiers;
-
-        public OperationFactory()
-        {
-            nameModifiers = new IModifyOperationName[]
+        private readonly IModifyOperationName[] _nameModifiers = new IModifyOperationName[]
                                 {
                                     new RemoveAreasNamespaceModifier(),
                                     new RemoveControllersNamespaceModifier(),
                                     new RemoveControllerFromEndOfTypeNameModifier(), 
+                                    new AppendPostToNameForHttpPostMethods(), 
                                 };
-        }
 
         public OperationIdentifier CreateForMethodCall<T>(Expression<Action<T>>  action)
         {
@@ -24,9 +20,9 @@ namespace Lockdown.Configuration.Operations
 
             var name = string.Concat(expr.Method.DeclaringType.FullName, ".", expr.Method.Name);
 
-            foreach (var m in nameModifiers)
+            foreach (var m in _nameModifiers)
             {
-                name = m.Apply(name);
+                name = m.Apply(name, expr);
             }
             
             return new OperationIdentifier
