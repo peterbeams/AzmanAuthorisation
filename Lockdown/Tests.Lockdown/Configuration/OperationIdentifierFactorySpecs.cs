@@ -70,6 +70,18 @@ namespace Tests.Lockdown.Configuration
                                                      result.Name.ShouldStartWith("Tests.Lockdown.Configuration.Sample.SamplePost");
     }
 
+    public class when_creating_operation_from_method_in_root_namespace : OperationFactoryContext
+    {
+        private Establish context = () =>
+                                    target.RootNamespace = "Tests.Lockdown";
+
+        private Because of = () =>
+                             result = target.CreateForMethodCall<SampleClass>(c => c.SampleMethod());
+
+        private It name_does_not_start_with_rootNamespace = () =>
+                                                            result.Name.ShouldEqual("Configuration.SampleClass.SampleMethod");
+    }
+
     public class SampleClass
     {
         public void SampleMethod()

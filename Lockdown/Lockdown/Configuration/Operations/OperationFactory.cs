@@ -11,7 +11,10 @@ namespace Lockdown.Configuration.Operations
                                     new RemoveControllersNamespaceModifier(),
                                     new RemoveControllerFromEndOfTypeNameModifier(), 
                                     new AppendPostToNameForHttpPostMethods(), 
+                                    new RemoveRootNamespaceFromStartOfName()
                                 };
+
+        public string RootNamespace { get; set; }
 
         public OperationIdentifier CreateForMethodCall<T>(Expression<Action<T>>  action)
         {
@@ -22,7 +25,7 @@ namespace Lockdown.Configuration.Operations
 
             foreach (var m in _nameModifiers)
             {
-                name = m.Apply(name, expr);
+                name = m.Apply(RootNamespace, name, expr);
             }
             
             return new OperationIdentifier

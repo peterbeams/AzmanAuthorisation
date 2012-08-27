@@ -6,7 +6,7 @@ namespace Lockdown.Configuration.Operations
 {
     public class AppendPostToNameForHttpPostMethods : IModifyOperationName
     {
-        public string Apply(string name, MethodCallExpression expr)
+        public string Apply(string rootNamespace, string name, MethodCallExpression expr)
         {
             if (expr.Method.GetCustomAttributes(typeof(HttpPostAttribute), true).Any())
             {

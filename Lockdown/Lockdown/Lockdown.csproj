@@ -56,6 +56,7 @@
     <Compile Include="Configuration\Operations\RemoveAreasNamespaceModifier.cs" />
     <Compile Include="Configuration\Operations\RemoveControllerFromEndOfTypeNameModifier.cs" />
     <Compile Include="Configuration\Operations\RemoveControllersNamespaceModifier.cs" />
+    <Compile Include="Configuration\Operations\RemoveRootNamespaceFromStartOfName.cs" />
     <Compile Include="Operation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Role.cs" />

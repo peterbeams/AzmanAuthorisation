@@ -4,6 +4,6 @@ namespace Lockdown.Configuration.Operations
 {
     public interface IModifyOperationName
     {
-        string Apply(string name, MethodCallExpression expr);
+        string Apply(string rootNamespace, string name, MethodCallExpression expr);
     }
 }
