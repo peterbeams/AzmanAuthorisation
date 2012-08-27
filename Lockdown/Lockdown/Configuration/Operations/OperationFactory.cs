@@ -1,5 +1,6 @@
 using System;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Lockdown.Configuration.Operations
 {
@@ -16,22 +17,26 @@ namespace Lockdown.Configuration.Operations
 
         public string RootNamespace { get; set; }
 
-        public OperationIdentifier CreateForMethodCall<T>(Expression<Action<T>>  action)
+        public OperationIdentifier Create(MethodInfo method)
         {
-            var lambda = (LambdaExpression) action;
-            var expr = (MethodCallExpression) lambda.Body;
-
-            var name = string.Concat(expr.Method.DeclaringType.FullName, ".", expr.Method.Name);
+            var name = string.Concat(method.DeclaringType.FullName, ".", method.Name);
 
             foreach (var m in _nameModifiers)
             {
-                name = m.Apply(RootNamespace, name, expr);
+                name = m.Apply(RootNamespace, name, method);
             }
-            
+
             return new OperationIdentifier
-                       {
-                           Name = name
-                       };
+            {
+                Name = name
+            };
+        }
+
+        public OperationIdentifier Create<T>(Expression<Action<T>>  action)
+        {
+            var lambda = (LambdaExpression) action;
+            var expr = (MethodCallExpression) lambda.Body;
+            return Create(expr.Method);
         }
     }
 }
