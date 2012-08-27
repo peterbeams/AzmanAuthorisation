@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using Lockdown.Configuration.Operations;
 using Lockdown.MVC.ActionResults;
 using Lockdown.MVC.Client;
 using Lockdown.MVC.Config;
@@ -26,7 +27,12 @@ namespace Lockdown.MVC.Filters
             var t = (ReflectedActionDescriptor)filterContext.ActionDescriptor;
             var m = t.MethodInfo;
 
-            var opName = ConfigureFluent.GetOpName(m, _stripPrefix);
+            var operationFactory = new OperationIdentifierFactory
+                                       {
+                                           RootNamespace = _stripPrefix
+                                       };
+
+            var opName = operationFactory.Create(m).Name;
 
             var tokenStore = OperationStore.Current(_appName, _clientFactory, _factory);
             var authorised = tokenStore.IsAuthorized(opName);

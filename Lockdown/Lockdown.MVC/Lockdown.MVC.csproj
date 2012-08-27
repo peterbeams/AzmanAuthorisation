@@ -78,6 +78,10 @@
       <Project>{9AC7300C-75D5-42CB-B7BE-A0D3400E1DD7}</Project>
       <Name>Lockdown.Messages</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lockdown\Lockdown.csproj">
+      <Project>{b04fd0ed-e3d5-4b7a-83df-318f57686eda}</Project>
+      <Name>Lockdown</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Lockdown.js">

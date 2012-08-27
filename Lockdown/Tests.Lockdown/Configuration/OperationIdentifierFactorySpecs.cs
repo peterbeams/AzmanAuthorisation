@@ -13,14 +13,14 @@ using Tests.Lockdown.Configuration.Controllers;
 
 namespace Tests.Lockdown.Configuration
 {
-    [Subject(typeof(OperationFactory))]
+    [Subject(typeof(OperationIdentifierFactory))]
     public class OperationFactoryContext
     {
-        protected static OperationFactory target;
+        protected static OperationIdentifierFactory target;
         protected static OperationIdentifier result;
 
         Establish context = () =>
-            target = new OperationFactory();
+            target = new OperationIdentifierFactory();
     }
 
     public class when_creating_operation_from_method_call : OperationFactoryContext
@@ -92,6 +92,26 @@ namespace Tests.Lockdown.Configuration
 
         private It name_does_not_start_with_rootNamespace = () =>
                                                             result.Name.ShouldEqual("Configuration.SampleClass.SampleMethod");
+    }
+
+    public class when_resulting_operation_name_is_longer_than_64_chars : OperationFactoryContext
+    {
+        private static Exception exception;
+
+        private Because of = () =>
+                             exception = Catch.Exception(() => target.Create<SampleClassWithVeryLongClassNameToBreakConstraint>(c => c.SampleMethod()));
+
+        private It exception_is_thrown = () => exception.ShouldNotBeNull();
+
+        private It exception_is_of_type_constraint_violation =
+            () => exception.ShouldBe(typeof (AzmanConstraintViolation));
+    }
+
+    public class SampleClassWithVeryLongClassNameToBreakConstraint
+    {
+        public void SampleMethod()
+        {
+        }
     }
 
     public class SampleClass

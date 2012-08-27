@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
+using Lockdown.Configuration.Operations;
 using Lockdown.MVC.Client;
 using Lockdown.MVC.Filters;
 using Lockdown.MVC.Tokens;
@@ -50,43 +51,19 @@ namespace Lockdown.MVC.Config
                                 where typeof(ActionResult).IsAssignableFrom(m.ReturnType)
                                 select m;
 
+            var operationFactory = new OperationIdentifierFactory
+                                       {
+                                           RootNamespace = scanning.StripPrefix
+                                       };
+
             foreach (var m in actionMethods)
             {
-                var opName = GetOpName(m, scanning.StripPrefix);
-
-                if (opName.Length > 64)
-                {
-                    throw new Exception(string.Format("Operation name is too long.  Max length is 64 chars. '{0}'", opName));
-                }                
+                var opName = operationFactory.Create(m).Name;
 
                 operations.Add(opName);
             }
             
             return this;
-        }
-
-        internal static string GetOpName(MethodInfo m, string stripPrefix)
-        {
-            var opName = string.Format("{0}.{1}", m.ReflectedType.FullName, m.Name);
-            if (m.GetCustomAttributes(typeof(HttpPostAttribute), true).Any())
-            {
-                opName = string.Concat(opName, "[POST]");
-            }
-
-            opName = opName.Replace(".Areas", string.Empty);
-            opName = opName.Replace(".Controllers", string.Empty);
-
-            if (!string.IsNullOrEmpty(stripPrefix))
-            {
-                opName = opName.Replace(stripPrefix, string.Empty);
-            }
-
-            if (opName.StartsWith("."))
-            {
-                opName = opName.Substring(1, opName.Length - 1);
-            }
-
-            return opName;
         }
 
         public void UseNamedPipeClient()
