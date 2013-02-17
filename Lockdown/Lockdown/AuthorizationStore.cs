@@ -49,7 +49,7 @@ namespace Lockdown
         {
             return GetEntityListFromAzmanEnumerator<IAzTask2, Role>(() => _application.Tasks, o => o.IsRoleDefinition == 1, CreateRole);
         }
-
+        
         private Role CreateRole(IAzTask2 role)
         {
             var opNames = new List<string>();
@@ -68,12 +68,47 @@ namespace Lockdown
 
             var tasks = Tasks.Where(t => taskNames.Any(taskName => taskName == t.Name));
 
+            var members = GetRoleAssignments(role, "default");
+            
             return new Role
                        {
                            Name = role.Name,
                            Operations = operations,
-                           Tasks = tasks
+                           Tasks = tasks,
+                           Members = members
                        };
+        }
+
+        private Member[] GetRoleAssignments(IAzTask2 role, string scopeName)
+        {
+            var members = new List<Member>();
+            var list = role.RoleAssignments(scopeName, true);
+            var enumerator = list.GetEnumerator();
+            try
+            {
+                while (enumerator.MoveNext())
+                {
+                    var o = (IAzRoleAssignment)enumerator.Current;
+
+                    foreach (var m in o.Members)
+                    {
+                        members.Add(new Member { Id = m });
+                    }
+
+                    Marshal.FinalReleaseComObject(o);
+                }
+            }
+            finally
+            {
+                if (enumerator is ICustomAdapter)
+                {
+                    var adapter = (ICustomAdapter)enumerator;
+                    Marshal.ReleaseComObject(adapter.GetUnderlyingObject());
+                    Marshal.FinalReleaseComObject(list);
+                }
+            }
+
+            return members.ToArray();
         }
 
         private IList<Task> GetTasks()

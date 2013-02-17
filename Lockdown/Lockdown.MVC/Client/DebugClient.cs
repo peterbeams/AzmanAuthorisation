@@ -17,5 +17,10 @@ namespace Lockdown.MVC.Client
         {
             _operationNames = operationNames;
         }
+
+        public string[] GetRoles(string appName, UserToken token)
+        {
+            return new string[] {};
+        }
     }
 }

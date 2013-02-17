@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.ServiceModel;
 using Lockdown.Messages;
 using Lockdown.Messages.Data;
@@ -94,6 +95,24 @@ namespace Lockdown.Host
             {
                 Store.UsingApplication(appName);
                 Array.ForEach(operationNames, o => Store.EnsureOperationByName(o));
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message, ex);
+                throw;
+            }
+        }
+
+        public string[] GetRoles(string appName, UserToken token)
+        {
+            Log.Info("Call made to GetRoles");
+
+            try
+            {
+                Store.UsingApplication(appName);
+
+                var opNames = Store.GetRoles().Where(r => r.Members.Any(m => token.Sids.Contains(m.Id)) );
+                return opNames.Select(r => r.Name).ToArray();
             }
             catch (Exception ex)
             {

@@ -11,5 +11,8 @@ namespace Lockdown.Messages
 
         [OperationContract]
         void RegisterOperations(string appName, string[] operationNames);
+
+        [OperationContract]
+        string[] GetRoles(string appName, UserToken token);
     }
 }
