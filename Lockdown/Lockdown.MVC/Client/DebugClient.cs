@@ -6,7 +6,13 @@ namespace Lockdown.MVC.Client
 {
     public class DebugClient : AuthorizationService
     {
+        private readonly string[] _roles;
         private static string[] _operationNames;
+
+        public DebugClient(string[] roles)
+        {
+            _roles = roles;
+        }
 
         public AuthorizedOperations GetAuthorisedOperations(string appName, UserToken token)
         {
@@ -20,7 +26,7 @@ namespace Lockdown.MVC.Client
 
         public string[] GetRoles(string appName, UserToken token)
         {
-            return new string[] {};
+            return _roles;
         }
     }
 }

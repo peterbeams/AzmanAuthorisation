@@ -96,7 +96,12 @@ namespace Lockdown.MVC.Config
 
         public void UseDebugClient()
         {
-            UseClient(new DebugClientFactory());
+            UseDebugClient(new string[] {});
+        }
+
+        public void UseDebugClient(string[] roles)
+        {
+            UseClient(new DebugClientFactory(roles));
         }
 
         private void UseClient(IAuthorizationClientFactory clientFactory)
