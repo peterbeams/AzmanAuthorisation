@@ -12,13 +12,15 @@ namespace Lockdown.MVC.Filters
         private readonly ITokenFactory _factory;
         private readonly string _appName;
         private readonly string _stripPrefix;
+        private readonly bool _stripControllerSuffix;
 
-        public AuthorisationFilter(IAuthorizationClientFactory clientFactory, ITokenFactory factory, string appName, string stripPrefix)
+        public AuthorisationFilter(IAuthorizationClientFactory clientFactory, ITokenFactory factory, string appName, string stripPrefix, bool stripControllerSuffix)
         {
             _clientFactory = clientFactory;
             _factory = factory;
             _appName = appName;
             _stripPrefix = stripPrefix;
+            _stripControllerSuffix = stripControllerSuffix;
         }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -26,7 +28,7 @@ namespace Lockdown.MVC.Filters
             var t = (ReflectedActionDescriptor)filterContext.ActionDescriptor;
             var m = t.MethodInfo;
 
-            var opName = ConfigureFluent.GetOpName(m, _stripPrefix);
+            var opName = ConfigureFluent.GetOpName(m, _stripPrefix, _stripControllerSuffix);
 
             var tokenStore = OperationStore.Current(_appName, _clientFactory, _factory);
             var authorised = tokenStore.IsAuthorized(opName);
