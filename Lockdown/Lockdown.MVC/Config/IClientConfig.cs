@@ -4,5 +4,6 @@
     {
         void UseNamedPipeClient();
         void UseDebugClient();
+        void UseDebugClient(string[] roleNames);
     }
 }

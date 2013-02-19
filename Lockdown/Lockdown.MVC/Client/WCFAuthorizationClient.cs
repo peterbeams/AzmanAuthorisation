@@ -21,5 +21,10 @@ namespace Lockdown.MVC.Client
         {
             Channel.RegisterOperations(appName, operationNames);
         }
+
+        public string[] GetRoles(string appName, UserToken token)
+        {
+            return Channel.GetRoles(appName, token);
+        }
     }
 }
