@@ -237,7 +237,7 @@ namespace Lockdown
         {
             lock (lockObj)
             {
-                if (Contexts.ContainsKey(appName))
+                if (!Contexts.ContainsKey(appName))
                 {
                     Contexts.Add(appName, new AuthorizationApplicationContext(appName, _store));
                 }
