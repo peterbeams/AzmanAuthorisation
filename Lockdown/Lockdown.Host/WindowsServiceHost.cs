@@ -23,5 +23,14 @@ namespace Lockdown.Host
             _host.Stop();
             base.OnStop();
         }
+
+        private void InitializeComponent()
+        {
+            // 
+            // WindowsServiceHost
+            // 
+            this.ServiceName = "LockdownHost";
+
+        }
     }
 }
