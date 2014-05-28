@@ -47,11 +47,11 @@ namespace Lockdown.MVC.Config
                                   where typeof(Controller).IsAssignableFrom(t)
                                         && t.IsPublic && !t.IsAbstract && !t.IsGenericTypeDefinition && !t.IsGenericType
                                   select t;
-
+            
             var actionMethods = from m in controllerTypes.SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Instance))
-                                where typeof(ActionResult).IsAssignableFrom(m.ReturnType)
-                                select m;
-
+                                where scanning.MethodRequiresFiltering(m)
+                                    select m;    
+            
             foreach (var m in actionMethods)
             {
                 var opName = GetOpName(m, scanning.StripPrefix, scanning.StripControllerSuffix);
