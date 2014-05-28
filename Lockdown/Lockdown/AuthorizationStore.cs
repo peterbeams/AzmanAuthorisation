@@ -9,45 +9,45 @@ using AZROLESLib;
 
 namespace Lockdown
 {
-    public class AuthorizationStore
+    public class AuthorizationApplicationContext
     {
-        //http://msdn.microsoft.com/en-us/library/windows/desktop/ms681382(v=vs.85).aspx
         private const int ERROR_ACCESS_DENIED = 5;
         private const int ERROR_SUCCESS = 0;
 
-        private IAzApplication3 _application;
-        private IList<Operation> _operations;
-        private IList<Task> _tasks;
-        private IAzAuthorizationStore3 _store;
+        public IAzApplication3 Application { get; set; }
+        public IList<Operation> Operations { get; set; }
+        public IList<Task> Tasks { get; set; }
 
-        public AuthorizationStore(string connectionString)
+        public AuthorizationApplicationContext(string appName, IAzAuthorizationStore3 store)
         {
-            _store = (IAzAuthorizationStore3)new AzAuthorizationStore();
-            _store.Initialize(0, connectionString, null);
-        }
+            if (Application == null)
+            {
+                Application = (IAzApplication3)store.OpenApplication(appName, null);
 
-        public IEnumerable<Operation> Operations
-        {
-            get { return _operations; }
-        }
-
-        public IEnumerable<Task> Tasks
-        {
-            get { return _tasks; }
+                Operations = GetOperations();
+                Tasks = GetTasks();
+            }
+            else
+            {
+                if (!Application.Name.Equals(appName))
+                {
+                    throw new Exception("Store is already using another applications");
+                }
+            }
         }
 
         private IList<Operation> GetOperations()
         {
-            return GetEntityListFromAzmanEnumerator<IAzOperation2, Operation>(() => _application.Operations, o => true, o => new Operation
-                                                              {
-                                                                  Name = o.Name,
-                                                                  Id = o.OperationID
-                                                              }).ToList();
+            return GetEntityListFromAzmanEnumerator<IAzOperation2, Operation>(() => Application.Operations, o => true, o => new Operation
+            {
+                Name = o.Name,
+                Id = o.OperationID
+            }).ToList();
         }
 
         public IEnumerable<Role> GetRoles()
         {
-            return GetEntityListFromAzmanEnumerator<IAzTask2, Role>(() => _application.Tasks, o => o.IsRoleDefinition == 1, CreateRole);
+            return GetEntityListFromAzmanEnumerator<IAzTask2, Role>(() => Application.Tasks, o => o.IsRoleDefinition == 1, CreateRole);
         }
 
         private Role CreateRole(IAzTask2 role)
@@ -68,20 +68,55 @@ namespace Lockdown
 
             var tasks = Tasks.Where(t => taskNames.Any(taskName => taskName == t.Name));
 
+            var members = GetRoleAssignments(role, "default");
+
             return new Role
-                       {
-                           Name = role.Name,
-                           Operations = operations,
-                           Tasks = tasks
-                       };
+            {
+                Name = role.Name,
+                Operations = operations,
+                Tasks = tasks,
+                Members = members
+            };
+        }
+
+        private Member[] GetRoleAssignments(IAzTask2 role, string scopeName)
+        {
+            var members = new List<Member>();
+            var list = role.RoleAssignments(scopeName, true);
+            var enumerator = list.GetEnumerator();
+            try
+            {
+                while (enumerator.MoveNext())
+                {
+                    var o = (IAzRoleAssignment)enumerator.Current;
+
+                    foreach (var m in o.Members)
+                    {
+                        members.Add(new Member { Id = m });
+                    }
+
+                    Marshal.FinalReleaseComObject(o);
+                }
+            }
+            finally
+            {
+                if (enumerator is ICustomAdapter)
+                {
+                    var adapter = (ICustomAdapter)enumerator;
+                    Marshal.ReleaseComObject(adapter.GetUnderlyingObject());
+                    Marshal.FinalReleaseComObject(list);
+                }
+            }
+
+            return members.ToArray();
         }
 
         private IList<Task> GetTasks()
         {
-            return GetEntityListFromAzmanEnumerator<IAzTask2, Task>(() => _application.Tasks, o => o.IsRoleDefinition != 1, o => new Task
-                                                                                                    {
-                                                                                                        Name = o.Name
-                                                                                                    }).ToList();
+            return GetEntityListFromAzmanEnumerator<IAzTask2, Task>(() => Application.Tasks, o => o.IsRoleDefinition != 1, o => new Task
+            {
+                Name = o.Name
+            }).ToList();
         }
 
         public IEnumerable<TEntity> GetEntityListFromAzmanEnumerator<TAzItem, TEntity>(Func<IEnumerable> azmanListFunc, Func<TAzItem, bool> includeAny, Func<TAzItem, TEntity> createEntity)
@@ -129,24 +164,6 @@ namespace Lockdown
             app.Submit();
         }
 
-        public void UsingApplication(string appName)
-        {
-            if (_application == null)
-            {
-                _application = (IAzApplication3)_store.OpenApplication(appName, null);
-
-                _operations = GetOperations();
-                _tasks = GetTasks();
-            }
-            else
-            {
-                if (!_application.Name.Equals(appName))
-                {
-                    throw new Exception("Store is already using another applications");
-                }
-            }
-        }
-
         public void EnsureOperationByName(string operationName)
         {
             if (!Operations.Any(o => o.Name.Equals(operationName, StringComparison.InvariantCultureIgnoreCase)))
@@ -157,26 +174,26 @@ namespace Lockdown
 
         private int NextOperationId()
         {
-            if (_operations.Count == 0)
+            if (Operations.Count() == 0)
             {
                 return 1;
             }
 
-            return _operations.Max(o => o.Id) + 1;
+            return Operations.Max(o => o.Id) + 1;
         }
 
         private void AddOperation(string operationName, int id)
         {
-            var op = _application.CreateOperation(operationName);
+            var op = Application.CreateOperation(operationName);
             op.OperationID = id;
             op.Submit();
 
-            _operations.Add(new Operation { Id = id, Name = operationName });
+            Operations.Add(new Operation { Id = id, Name = operationName });
         }
 
         public string[] GetAuthroizedOperations(string[] sids)
         {
-            var context = _application.InitializeClientContext2("identity");
+            var context = Application.InitializeClientContext2("identity");
             var sidArray = sids.Cast<object>().ToArray();
             context.AddStringSids(sidArray);
 
@@ -199,6 +216,47 @@ namespace Lockdown
             }
 
             return ops.ToArray();
+        }
+    }
+
+    public class AuthorizationStore
+    {
+        //http://msdn.microsoft.com/en-us/library/windows/desktop/ms681382(v=vs.85).aspx
+        
+        private Dictionary<string, AuthorizationApplicationContext> Contexts = new Dictionary<string, AuthorizationApplicationContext>();
+        private IAzAuthorizationStore3 _store;
+        private object lockObj = new object();
+
+        public AuthorizationStore(string connectionString)
+        {
+            _store = (IAzAuthorizationStore3)new AzAuthorizationStore();
+            _store.Initialize(0, connectionString, null);
+        }
+
+        public void UsingApplication(string appName)
+        {
+            lock (lockObj)
+            {
+                if (!Contexts.ContainsKey(appName))
+                {
+                    Contexts.Add(appName, new AuthorizationApplicationContext(appName, _store));
+                }
+            }
+        }
+
+        public IEnumerable<Role> GetRoles(string appName)
+        {
+            return Contexts[appName].GetRoles();
+        }
+
+        public string[] GetAuthroizedOperations(string appName, string[] sids)
+        {
+            return Contexts[appName].GetAuthroizedOperations(sids);
+        }
+
+        public void EnsureOperationByName(string appName, string operationName)
+        {
+            Contexts[appName].EnsureOperationByName(operationName);
         }
     }
 }

@@ -15,6 +15,7 @@ namespace Lockdown.MVC.Config
         private string name;
         private string _stripPrefix;
         private ITokenFactory _tokenFactory;
+        private bool _stripControllerSuffix;
 
         public IFindOperations Application(string name)
         {
@@ -40,19 +41,20 @@ namespace Lockdown.MVC.Config
         public ITokenFactoryConfig ScanControllers(AssemblyScanConfig scanning)
         {
             _stripPrefix = scanning.StripPrefix;
+            _stripControllerSuffix = scanning.StripControllerSuffix;
 
             var controllerTypes = from t in scanning.Assembly.GetTypes()
                                   where typeof(Controller).IsAssignableFrom(t)
                                         && t.IsPublic && !t.IsAbstract && !t.IsGenericTypeDefinition && !t.IsGenericType
                                   select t;
-
+            
             var actionMethods = from m in controllerTypes.SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Instance))
-                                where typeof(ActionResult).IsAssignableFrom(m.ReturnType)
-                                select m;
-
+                                where scanning.ActionsDefinedAs(m)
+                                    select m;    
+            
             foreach (var m in actionMethods)
             {
-                var opName = GetOpName(m, scanning.StripPrefix);
+                var opName = GetOpName(m, scanning.StripPrefix, scanning.StripControllerSuffix);
 
                 if (opName.Length > 64)
                 {
@@ -65,7 +67,7 @@ namespace Lockdown.MVC.Config
             return this;
         }
 
-        internal static string GetOpName(MethodInfo m, string stripPrefix)
+        internal static string GetOpName(MethodInfo m, string stripPrefix, bool stripControllerSuffix)
         {
             var opName = string.Format("{0}.{1}", m.ReflectedType.FullName, m.Name);
             if (m.GetCustomAttributes(typeof(HttpPostAttribute), true).Any())
@@ -75,6 +77,11 @@ namespace Lockdown.MVC.Config
 
             opName = opName.Replace(".Areas", string.Empty);
             opName = opName.Replace(".Controllers", string.Empty);
+
+            if (stripControllerSuffix)
+            {
+                opName = opName.Replace("Controller.", ".");
+            }
 
             if (!string.IsNullOrEmpty(stripPrefix))
             {
@@ -96,12 +103,17 @@ namespace Lockdown.MVC.Config
 
         public void UseDebugClient()
         {
-            UseClient(new DebugClientFactory());
+            UseDebugClient(new string[] {});
+        }
+
+        public void UseDebugClient(string[] roles)
+        {
+            UseClient(new DebugClientFactory(roles));
         }
 
         private void UseClient(IAuthorizationClientFactory clientFactory)
         {
-            GlobalFilters.Filters.Add(new AuthorisationFilter(clientFactory, _tokenFactory, name, _stripPrefix));
+            GlobalFilters.Filters.Add(new AuthorisationFilter(clientFactory, _tokenFactory, name, _stripPrefix, _stripControllerSuffix));
 
             ScriptExtensions.ClientFactory = clientFactory;
 

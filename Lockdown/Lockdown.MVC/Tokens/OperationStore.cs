@@ -10,6 +10,7 @@ namespace Lockdown.MVC.Tokens
     public class OperationStore
     {
         private readonly string[] _authzOps;
+        private readonly string[] _authzRoles;
         private const string GrantedOperationsSessionKey = "GrantedOperations";
 
         public string[] Values
@@ -43,8 +44,9 @@ namespace Lockdown.MVC.Tokens
             var client = clientFactory.CreateClient();
             var token = factory.GetCurrent();
             var result = client.GetAuthorisedOperations(appName, token);
+            var roles = client.GetRoles(appName, token);
 
-            return new OperationStore(result);
+            return new OperationStore(result, roles);
         }
 
         public static void Clear()
@@ -52,14 +54,25 @@ namespace Lockdown.MVC.Tokens
             Session[GrantedOperationsSessionKey] = null;
         }
 
-        public OperationStore(AuthorizedOperations ops)
+        public OperationStore(AuthorizedOperations ops, string[] roles)
         {
             _authzOps = ops.OperationNames;
+            _authzRoles = roles;
         }
 
         public bool IsAuthorized(string operationName)
         {
             return _authzOps.Any(o => o.Equals(operationName, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        public static bool IsRole(string roleName)
+        {
+            if (Stored == null)
+            {
+                throw new NotSupportedException("Cannot check roles, not authorization context loaded");
+            }
+
+            return Stored._authzRoles.Any(o => o.Equals(roleName, StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }
