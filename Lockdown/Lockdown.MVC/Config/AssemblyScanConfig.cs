@@ -4,14 +4,13 @@ using System.Web.Mvc;
 
 namespace Lockdown.MVC.Config
 {
-    public class AssemblyScanConfig
+     public class AssemblyScanConfig
     {
         private readonly Assembly _assembly;
         private readonly string _stripPrefix;
         private readonly bool _stripControllerSuffix;
-        private Func<MethodInfo, bool> _rule;
-
-
+        private Func<MethodInfo, bool> _actionDefinition;
+        
         public AssemblyScanConfig(Assembly assembly, string stripPrefix)
             : this(assembly, stripPrefix, false)
         {
@@ -22,31 +21,31 @@ namespace Lockdown.MVC.Config
             _assembly = assembly;
             _stripPrefix = stripPrefix;
             _stripControllerSuffix = stripControllerSuffix;
-            _rule = (m) => typeof (ActionResult).IsAssignableFrom(m.ReturnType);
+            _actionDefinition = (m) => typeof(ActionResult).IsAssignableFrom(m.ReturnType);
         }
 
-        public AssemblyScanConfig Using(Func<MethodInfo, bool> rule)
+        public AssemblyScanConfig DefiningActionsAs(Func<MethodInfo, bool> rule)
         {
-            _rule = rule;
+            _actionDefinition = rule;
             return this;
         }
 
-        public Func<MethodInfo, bool> MethodRequiresFiltering
+        internal Func<MethodInfo, bool> ActionsDefinedAs
         {
-            get { return _rule; }
+            get { return _actionDefinition; }
         }
 
-        public string StripPrefix
+        internal string StripPrefix
         {
             get { return _stripPrefix; }
         }
 
-        public Assembly Assembly
+        internal Assembly Assembly
         {
             get { return _assembly; }
         }
 
-        public bool StripControllerSuffix
+        internal bool StripControllerSuffix
         {
             get { return _stripControllerSuffix; }
         }

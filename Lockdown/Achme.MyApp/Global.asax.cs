@@ -40,7 +40,7 @@ namespace Achme.MyApp
         {
             Authorisation.Configure
                 .Application(AppName)
-                .ScanControllers(In.AssemblyContaining<MvcApplication>("Achme.MyApp"))
+                .ScanControllers(In.AssemblyContaining<MvcApplication>("Achme.MyApp").DefiningActionsAs(m => true))                
                 .UseTokenFactory<TokenFactory>()
                 .UseDebugClient();
 

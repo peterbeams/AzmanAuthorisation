@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Client\DebugClient.cs" />
     <Compile Include="Client\IAuthorizationClientFactory.cs" />
+    <Compile Include="Config\IAssemblyScanConfig.cs" />
     <Compile Include="Config\ITokenFactoryConfig.cs" />
     <Compile Include="ScriptExtensions.cs" />
     <Compile Include="Tokens\AbstractTokenFactory.cs" />

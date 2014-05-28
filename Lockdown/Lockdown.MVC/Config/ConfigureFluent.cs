@@ -49,7 +49,7 @@ namespace Lockdown.MVC.Config
                                   select t;
             
             var actionMethods = from m in controllerTypes.SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Instance))
-                                where scanning.MethodRequiresFiltering(m)
+                                where scanning.ActionsDefinedAs(m)
                                     select m;    
             
             foreach (var m in actionMethods)
