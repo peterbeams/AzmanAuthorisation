@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
+using System.Web.Mvc;
 
 namespace Lockdown.MVC.Config
 {
@@ -7,6 +9,8 @@ namespace Lockdown.MVC.Config
         private readonly Assembly _assembly;
         private readonly string _stripPrefix;
         private readonly bool _stripControllerSuffix;
+        private Func<MethodInfo, bool> _rule;
+
 
         public AssemblyScanConfig(Assembly assembly, string stripPrefix)
             : this(assembly, stripPrefix, false)
@@ -18,6 +22,18 @@ namespace Lockdown.MVC.Config
             _assembly = assembly;
             _stripPrefix = stripPrefix;
             _stripControllerSuffix = stripControllerSuffix;
+            _rule = (m) => typeof (ActionResult).IsAssignableFrom(m.ReturnType);
+        }
+
+        public AssemblyScanConfig Using(Func<MethodInfo, bool> rule)
+        {
+            _rule = rule;
+            return this;
+        }
+
+        public Func<MethodInfo, bool> MethodRequiresFiltering
+        {
+            get { return _rule; }
         }
 
         public string StripPrefix
