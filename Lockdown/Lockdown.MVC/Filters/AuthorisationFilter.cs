@@ -1,8 +1,9 @@
-﻿using System.Web.Mvc;
-using Lockdown.MVC.ActionResults;
+﻿using Lockdown.MVC.ActionResults;
 using Lockdown.MVC.Client;
 using Lockdown.MVC.Config;
 using Lockdown.MVC.Tokens;
+using System.Web.Mvc;
+using System.Web.Mvc.Async;
 
 namespace Lockdown.MVC.Filters
 {
@@ -25,8 +26,12 @@ namespace Lockdown.MVC.Filters
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var t = (ReflectedActionDescriptor)filterContext.ActionDescriptor;
-            var m = t.MethodInfo;
+            var isAsync = filterContext.ActionDescriptor is TaskAsyncActionDescriptor;
+
+            var m = isAsync
+                ? (filterContext.ActionDescriptor as TaskAsyncActionDescriptor).TaskMethodInfo
+                : (filterContext.ActionDescriptor as ReflectedActionDescriptor).MethodInfo;
+
 
             var opName = ConfigureFluent.GetOpName(m, _stripPrefix, _stripControllerSuffix);
 
