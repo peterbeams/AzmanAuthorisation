@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace Lockdown.MVC.Config
@@ -21,7 +22,13 @@ namespace Lockdown.MVC.Config
             _assembly = assembly;
             _stripPrefix = stripPrefix;
             _stripControllerSuffix = stripControllerSuffix;
-            _actionDefinition = (m) => typeof(ActionResult).IsAssignableFrom(m.ReturnType);
+            _actionDefinition = (m) =>
+                {
+                    return
+                        typeof (ActionResult).IsAssignableFrom(m.ReturnType) ||
+                        typeof (Task<ActionResult>).IsAssignableFrom(m.ReturnType);
+
+                };
         }
 
         public AssemblyScanConfig DefiningActionsAs(Func<MethodInfo, bool> rule)
